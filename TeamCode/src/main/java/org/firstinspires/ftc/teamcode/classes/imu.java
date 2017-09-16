@@ -25,11 +25,13 @@ public class imu extends I2cDeviceSynchDevice<I2cDeviceSynch> {
     public String getDeviceName()
     {
 
-        return "Adafruit IMU sensor";
+        return "Adafruit IMU sensor BNO055";
     }
 
     public imu(I2cDeviceSynch deviceClient){
         super(deviceClient,true);
+
+        //this.deviceClient.setI2cAddress(ADDRESS_I2C_DEFAULT);
 
         super.registerArmingStateCallback(false);
         this.deviceClient.engage();
