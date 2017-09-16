@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.classes;
 
 
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
@@ -12,12 +13,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
  */
 
-public class Mecanum  {
+public class Mecanum{
 
     // instance variables
 
     // private variables
-
+    private DcMotor motorFR;
+    private DcMotor motorFL;
+    private DcMotor motorBR;
+    private DcMotor motorBL;
     // constants
 
     private final double pi = 3.1415926;
@@ -55,83 +59,14 @@ public class Mecanum  {
         BasePower = .5;
 
     }
-
-/*
-    public void set_Power_using_encoders(double x, double y, DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL)
-
-    {
-
-        int frdist, fldist, brdist, bldist;
-
-        if (y > x && y > -x)
-
-        {
-
-            frdist = motorFR.getCurrentPosition() + 1000;
-
-            fldist = motorFL.getCurrentPosition() - 1000;
-
-            brdist = motorBR.getCurrentPosition() + 1000;
-
-            bldist = motorBL.getCurrentPosition() - 1000;
-
-        } else if (y < x && y > -x)
-
-        {
-
-            frdist = motorFR.getCurrentPosition() + 1000;
-
-            fldist = motorFL.getCurrentPosition() + 1000;
-
-            brdist = motorBR.getCurrentPosition() - 1000;
-
-            bldist = motorBL.getCurrentPosition() - 1000;
-
-        } else if (y > x && y < -x)
-
-        {
-
-            frdist = motorFR.getCurrentPosition() - 1000;
-
-            fldist = motorFL.getCurrentPosition() - 1000;
-
-            brdist = motorBR.getCurrentPosition() + 1000;
-
-            bldist = motorBL.getCurrentPosition() + 1000;
-
-        } else
-
-        {
-
-            frdist = motorFR.getCurrentPosition() - 1000;
-
-            fldist = motorFL.getCurrentPosition() + 1000;
-
-            brdist = motorBR.getCurrentPosition() - 1000;
-
-            bldist = motorBL.getCurrentPosition() + 1000;
-
-
-        }
-
-        if (x * x + y * y < 0.5)
-
-        {
-
-            frdist = 0;
-
-            fldist = 0;
-
-            brdist = 0;
-
-            bldist = 0;
-
-        }
-
-        setPosition(frdist, fldist, brdist, bldist, motorFR, motorFL, motorBR, motorBL);
-
+    public Mecanum(DcMotor motorFR,DcMotor motorFL,DcMotor motorBR,DcMotor motorBL){
+        this.motorFR = motorFR;
+        this.motorFL = motorFL;
+        this.motorBR = motorBR;
+        this.motorBL = motorBL;
     }
-*/
+
+
     // sets
 
     public void set_Power(float rjoystick_x, float ljoystick_y, float ljoystick_x, boolean percision_flag) {
@@ -331,8 +266,7 @@ public class Mecanum  {
 
     }
 
-    public void setPosition(int fr, int fl, int br, int bl, DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
-
+    public void setPosition(int fr, int fl, int br, int bl){
         //
 
         // Sets the motor position to something and the runs it.
@@ -398,133 +332,8 @@ public class Mecanum  {
 
     // testers
 
-    public int testDistance(DcMotor A_Motor) {
-
-        // This takes any motor and tests the distance that that motor has traveled
-
-        // We only do one because all have traveled the same amount. Knowing Turns
-
-        // Do not count.
-
-
-        if (Math.abs(A_Motor.getCurrentPosition()) >= Math.abs(A_Motor.getTargetPosition())) {
-
-            return 1;
-
-        } else {
-
-            return 0;
-
-        }
-
-    }
-
 
     // directions for the robot to run
-
-    public void run_left_using_alignment(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL, double distanceFrontR, double distanceBackR) {
-
-        FLpower = -BasePower;
-
-        BLpower = BasePower;
-
-        FRpower = -BasePower;
-
-        BRpower = BasePower;
-
-        double distanceDifference = distanceFrontR - distanceBackR;
-
-        if (distanceDifference > 2) {
-
-            //
-
-            // turn right
-
-            //
-
-            BLpower += distanceDifference / 30;
-
-            BRpower += distanceDifference / 30;
-
-        } else if (distanceDifference < -2) {
-
-            distanceDifference = -1 * distanceDifference;
-
-            //
-
-            // turn left
-
-            //
-
-            FLpower -= distanceDifference / 30;
-
-            FRpower -= distanceDifference / 30;
-
-        }
-
-        motorFR.setPower(FRpower);
-
-        motorBR.setPower(BRpower);
-
-        motorFL.setPower(FLpower);
-
-        motorBL.setPower(BLpower);
-
-    }
-
-
-    public void run_right_using_alignment(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL, double distanceFrontR, double distanceBackR) {
-
-        FLpower = BasePower;
-
-        BLpower = -BasePower;
-
-        FRpower = BasePower;
-
-        BRpower = -BasePower;
-
-        double distanceDifference = distanceFrontR - distanceBackR;
-
-        if (distanceDifference > 2) {
-
-            //
-
-            // turn right
-
-            //
-
-            BLpower += distanceDifference / 30;
-
-            BRpower += distanceDifference / 30;
-
-
-        } else if (distanceDifference < -2) {
-
-            distanceDifference = -1 * distanceDifference;
-
-            //
-
-            // turn left
-
-            //
-
-            FLpower -= distanceDifference / 30;
-
-            FRpower -= distanceDifference / 30;
-
-
-        }
-
-        motorFR.setPower(FRpower);
-
-        motorBR.setPower(BRpower);
-
-        motorFL.setPower(FLpower);
-
-        motorBL.setPower(BLpower);
-
-
-    }
 
 
     // methods
@@ -535,7 +344,7 @@ public class Mecanum  {
 
     //
 
-    public void run_left(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_left() {
 
         FLpower = -BasePower;
 
@@ -567,7 +376,7 @@ public class Mecanum  {
 
     }
 
-    public void run_right(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_right() {
 
         FLpower = BasePower;
 
@@ -599,7 +408,7 @@ public class Mecanum  {
 
     }
 
-    public void run_forward(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_forward() {
 
         FLpower = BasePower;
 
@@ -632,7 +441,7 @@ public class Mecanum  {
 
     }
 
-    public void run_backward(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_backward() {
 
         FLpower = -BasePower;
 
@@ -664,7 +473,7 @@ public class Mecanum  {
 
     }
 
-    public void run_diagonal_right_up(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_diagonal_right_up() {
 
         FLpower = BasePower;
 
@@ -696,7 +505,7 @@ public class Mecanum  {
 
     }
 
-    public void run_diagonal_left_up(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_diagonal_left_up() {
 
         FLpower = BasePower;
 
@@ -728,7 +537,7 @@ public class Mecanum  {
 
     }
 
-    public void run_diagonal_left_down(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_diagonal_left_down() {
 
         FLpower = -BasePower;
 
@@ -760,7 +569,7 @@ public class Mecanum  {
 
     }
 
-    public void run_diagonal_right_down(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_diagonal_right_down() {
 
         FLpower = 0;
 
@@ -792,7 +601,7 @@ public class Mecanum  {
 
     }
 
-    public void turn_right(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void turn_right() {
 
         FLpower = BasePower;
 
@@ -816,7 +625,7 @@ public class Mecanum  {
 
     }
 
-    public void turn_left(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void turn_left() {
 
         FLpower = -BasePower;
 
@@ -844,7 +653,7 @@ public class Mecanum  {
 
     }
 
-    public void brake(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void brake() {
 
         FLpower = 0;
 
@@ -879,7 +688,7 @@ public class Mecanum  {
 
     // resets
 
-    public void reset_encoders(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void reset_encoders() {
 
         //
 
@@ -903,7 +712,7 @@ public class Mecanum  {
 
     }
 
-    public void run_to_position(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_to_position() {
 
         //
 
@@ -927,7 +736,7 @@ public class Mecanum  {
 
     }
 
-    public void run_using_encoders(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_using_encoders() {
 
         //
 
@@ -951,7 +760,7 @@ public class Mecanum  {
 
     }
 
-    public void run_without_encoders(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_without_encoders() {
 
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
