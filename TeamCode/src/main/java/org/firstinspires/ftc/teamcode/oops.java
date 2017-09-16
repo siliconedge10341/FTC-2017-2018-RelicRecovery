@@ -70,10 +70,10 @@ public class oops extends OpMode
     private DcMotor brMotor;
 
 
-    double flspeedcoefficient = -.8;
-    double blspeedcoefficient = -.8;
-    double frspeedcoefficient = -.8;
-    double brspeedcoefficient = -.8;
+    double flspeedcoefficient = -.9;
+    double blspeedcoefficient = -.9;
+    double frspeedcoefficient = -.9;
+    double brspeedcoefficient = -.9;
 
 
 
@@ -133,44 +133,43 @@ public class oops extends OpMode
         L = getL(gamepad1.left_stick_x,gamepad1.left_stick_y,Math.PI/4);
         A = getA(gamepad1.left_stick_x,gamepad1.left_stick_y,Math.PI/4);
         flMotor.setPower(flspeedcoefficient * L * A);
-        telemetry.addLine(Double.toString(flspeedcoefficient * L * A));
+        telemetry.addLine("fl: " + Double.toString(flspeedcoefficient * L * A));
         //back left motor
         L = getL(gamepad1.left_stick_x,gamepad1.left_stick_y,-Math.PI/4);
         A = getA(gamepad1.left_stick_x,gamepad1.left_stick_y,-Math.PI/4);
         blMotor.setPower(blspeedcoefficient * L * A);
-        telemetry.addLine(Double.toString(blspeedcoefficient * L * A));
+        telemetry.addLine("bl: " + Double.toString(blspeedcoefficient * L * A));
         //front right motor
         L = getL(gamepad1.right_stick_x,gamepad1.right_stick_y,-Math.PI/4);
         A = getA(gamepad1.right_stick_x,gamepad1.right_stick_y,-Math.PI/4);
         frMotor.setPower(frspeedcoefficient * L * A );
-        telemetry.addLine(Double.toString(frspeedcoefficient * L * A));
+        telemetry.addLine("fr: " + Double.toString(frspeedcoefficient * L * A));
         //back right motor
         L = getL(gamepad1.right_stick_x,gamepad1.right_stick_y,Math.PI/4);
         A = getA(gamepad1.right_stick_x,gamepad1.right_stick_y,Math.PI/4);
         brMotor.setPower(brspeedcoefficient * L * A );
-        telemetry.addLine(Double.toString(brspeedcoefficient * L * A));
+        telemetry.addLine("br: " + Double.toString(brspeedcoefficient * L * A));
     }
     private static double getL(double x, double y, double angle){
         return Math.pow((Math.pow(x,2) + Math.pow(y, 2)),.5);
     }
     private static double getA(double x, double y, double angle){
         double x1 =0;
-        x1 = getnewX(x,y,angle);
+        x1 = getnewX(-x,y,angle);
         double y1=0;
-        y1 = getnewY(x,y,angle);
+        y1 = getnewY(-x,y,angle);
         double theta = 0;
 
         theta = (Math.atan(y1/x1));
         if(x1 < 0) {
             theta *= -1;
         }
-        if(theta>0||theta<0){
+        if (theta>0||theta<0){
 
         }else{
             theta = 0;
         }
         return theta/(Math.PI/2);
-
     }
     private static double getnewX(double x,double y,double angle){
         return x*Math.cos(angle) - y*Math.sin(angle);

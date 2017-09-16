@@ -56,7 +56,7 @@ public class Mecanum  {
 
     }
 
-
+/*
     public void set_Power_using_encoders(double x, double y, DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL)
 
     {
@@ -131,7 +131,7 @@ public class Mecanum  {
         setPosition(frdist, fldist, brdist, bldist, motorFR, motorFL, motorBR, motorBL);
 
     }
-
+*/
     // sets
 
     public void set_Power(float rjoystick_x, float ljoystick_y, float ljoystick_x, boolean percision_flag) {
