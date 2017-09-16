@@ -66,6 +66,15 @@ public class BlueAuto extends LinearOpMode {
 
         encoderDrive(5,"forward",.5);
 
+        //VuMark loop
+        while (opModeIsActive()){
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            telemetry.addData("VuMark", "%s visible", vuMark);
+
+            telemetry.update();
+
+        }
+
 
 
     }
