@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.classes;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.I2cAddr;
@@ -20,7 +20,7 @@ Bytes    16-bit word    Description
         12, 13   y              height of object
         */
 
-public class PixyExample extends LinearOpMode {
+public class PixyTester extends LinearOpMode {
     I2cDeviceSynch pixy;
     //our Pixy device
     @Override
