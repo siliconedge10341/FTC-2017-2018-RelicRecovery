@@ -50,7 +50,6 @@ public class nigboi2 extends OpMode{
             motorBR.setPower(powerT1);
             motorFL.setPower(powerT2);
             motorFR.setPower(powerT1);
-
         }
         else if (leftwardtest){
             powerT1 = 1;
