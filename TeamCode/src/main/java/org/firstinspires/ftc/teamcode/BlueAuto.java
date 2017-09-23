@@ -64,24 +64,26 @@ public class BlueAuto extends LinearOpMode {
 
         waitForStart();
 
+//////////////////////////////////////////////////////////////////////////play!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         encoderDrive(5,"forward",.5);
 
-        //VuMark loop
 
+        //ball detect:
+
+
+        //VuMark loop
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         telemetry.addData("VuMark", "%s visible", vuMark);
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
 
-
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
 
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
 
         }
-
-
 
 
 
