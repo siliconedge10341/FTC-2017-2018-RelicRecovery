@@ -65,14 +65,14 @@ public class BlueAuto extends LinearOpMode {
         waitForStart();
 
 //////////////////////////////////////////////////////////////////////////play!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+        //STATE ONE: MOVE FORWARD
         encoderDrive(5,"forward",.5);
 
 
-        //ball detect:
+        //STATE TWO: DETECT BALLS
 
 
-        //VuMark loop
+        //STATE THREE: SCAN VUMARK
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         telemetry.addData("VuMark", "%s visible", vuMark);
 
@@ -84,6 +84,10 @@ public class BlueAuto extends LinearOpMode {
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
 
         }
+
+        //STATE FOUR: GO TO MOUNTAIN
+
+        //STATE FIVE: STACK BLOCK
 
 
 

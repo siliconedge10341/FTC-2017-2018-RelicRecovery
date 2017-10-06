@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -19,6 +20,10 @@ public class driver extends OpMode{
     private DcMotor motorFL;
     private DcMotor motorBR;
     private DcMotor motorBL;
+
+    private Servo armServo;
+    double Servopos = (Servo.MAX_POSITION+Servo.MIN_POSITION)/2;
+
 
     double Ch1;
     double Ch3;
@@ -43,6 +48,10 @@ public class driver extends OpMode{
         motorFR = hardwareMap.dcMotor.get("fr");
         motorBL = hardwareMap.dcMotor.get("bl");
         motorBR = hardwareMap.dcMotor.get("br");
+
+        armServo = hardwareMap.servo.get("arm_servo");
+        armServo.setPosition(Servopos);
+
 
         // Servos
 
@@ -107,6 +116,13 @@ public class driver extends OpMode{
 
         motorBR.setPower(-(Ch3 - Ch1 + Ch4));
         motorBL.setPower( -(Ch3 + Ch1 - Ch4));
+
+        if(gamepad1.dpad_left){
+            Servopos -= .01;
+        }else if(gamepad1.dpad_right){
+            Servopos += .01;
+        }
+        armServo.setPosition(Servopos);
         //
         //
         // Runs the collector
