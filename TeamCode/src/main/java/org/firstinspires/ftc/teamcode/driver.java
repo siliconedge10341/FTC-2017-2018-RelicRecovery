@@ -22,7 +22,7 @@ public class driver extends OpMode{
     private DcMotor motorBL;
 
     private Servo armServo;
-    double Servopos = (Servo.MAX_POSITION+Servo.MIN_POSITION)/2;
+    double Servopos = (Servo.MAX_POSITION-.5);
 
 
     double Ch1;
@@ -122,7 +122,16 @@ public class driver extends OpMode{
         }else if(gamepad1.dpad_right){
             Servopos += .01;
         }
+        if (Servopos > Servo.MAX_POSITION){
+            Servopos = Servo.MAX_POSITION;
+        }
+        if (Servopos < Servo.MIN_POSITION){
+            Servopos = Servo.MIN_POSITION;
+        }
         armServo.setPosition(Servopos);
+
+        telemetry.addData("Servopos :" , Servopos);
+        telemetry.update();
         //
         //
         // Runs the collector

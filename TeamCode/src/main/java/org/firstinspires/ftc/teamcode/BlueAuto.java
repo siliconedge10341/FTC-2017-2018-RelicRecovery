@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
 import org.firstinspires.ftc.teamcode.classes.Mecanum;
 
 
@@ -62,8 +64,13 @@ public class BlueAuto extends LinearOpMode {
         //Mecanum
         bot = new Mecanum(motorFR,motorFL,motorBR,motorBL);
 
+        //IMU
+        AdafruitIMU imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
+
+
         waitForStart();
 
+        imu.start();
 //////////////////////////////////////////////////////////////////////////play!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //STATE ONE: MOVE FORWARD
         encoderDrive(5,"forward",.5);
@@ -84,10 +91,11 @@ public class BlueAuto extends LinearOpMode {
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
 
         }
+        //STATE FOUR: TURN ROBOT
 
-        //STATE FOUR: GO TO MOUNTAIN
+        //STATE FIVE: GO TO MOUNTAIN
 
-        //STATE FIVE: STACK BLOCK
+        //STATE SIX: STACK BLOCK
 
 
 

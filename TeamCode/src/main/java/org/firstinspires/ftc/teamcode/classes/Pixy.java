@@ -27,6 +27,7 @@ public class Pixy {
     double getY(){
         return (pixy.read8(1) );
     }
+
     int numobjects(){
        return (pixy.read8(0));
     }

@@ -55,12 +55,12 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
-@Disabled                            // Comment this out to add to the opmode list
+//@Disabled                            // Comment this out to add to the opmode list
 public class SensorBNO055IMU extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
     // State
-    //----------------------------------------------------------------------------------------------
+    //---------------------e-------------------------------------------------------------------------
 
     // The IMU sensor object
     BNO055IMU imu;
