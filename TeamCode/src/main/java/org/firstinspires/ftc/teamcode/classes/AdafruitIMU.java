@@ -18,8 +18,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 public class AdafruitIMU {
     BNO055IMU imu;
     Orientation angles;
+    public AdafruitIMU(){
+
+
+    }
 
     public AdafruitIMU(BNO055IMU hardwaremap){
+
+        imu = hardwaremap;
+
+    }
+    public void init(){
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -28,9 +37,7 @@ public class AdafruitIMU {
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        imu = hardwaremap;
         imu.initialize(parameters);
-
     }
 
     public void start(){

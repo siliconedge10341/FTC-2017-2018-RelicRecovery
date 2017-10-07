@@ -12,9 +12,12 @@ import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
 
 @Autonomous(name = "imuTester")
 public class imuTester extends LinearOpMode{
-    AdafruitIMU imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
+    AdafruitIMU imu = new AdafruitIMU();
 
     public void runOpMode(){
+        imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
+
+        imu.init();
 
         waitForStart();
         imu.start();
