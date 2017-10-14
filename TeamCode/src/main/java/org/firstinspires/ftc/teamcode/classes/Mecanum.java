@@ -16,7 +16,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Mecanum{
 
     // instance variables
-
     // private variables
     private DcMotor motorFR;
     private DcMotor motorFL;
@@ -27,8 +26,6 @@ public class Mecanum{
     private final double pi = 3.1415926;
 
     private final double wheel_diameter = 4 * (pi);
-
-
     // powers
 
     private double FRpower = 0;
@@ -45,17 +42,11 @@ public class Mecanum{
     // constructors
 
     public Mecanum() {
-
         // default constructors
-
         FRpower = 0;
-
         FLpower = 0;
-
         BRpower = 0;
-
         BLpower = 0;
-
         BasePower = .5;
 
     }
@@ -194,81 +185,9 @@ public class Mecanum{
         }
 
 
-
-        /*
-
-        double X2 = 0, Y1 = 0, X1 = 0, threshold = .15;
-
-
-
-        if(Math.abs(ch3) > threshold)
-
-            Y1 = ch3;
-
-        else
-
-            Y1 = 0;
-
-//Create "deadzone" for X1/Ch4
-
-        if(Math.abs(ch4) > threshold)
-
-            X1 = ch4;
-
-        else
-
-            X1 = 0;
-
-//Create "deadzone" for X2/Ch1
-
-        if(Math.abs(ch1) > threshold)
-
-            X2 = ch1;
-
-        else
-
-            X2 = 0;
-
-
-
-        if(Y1<.3 && Y1>-.3){
-
-            Y1 = 0;
-
-        }
-
-
-
-        if (percision_flag = true) {
-
-            FLpower = -(Y1 + X2 + X1);
-
-            BLpower = (Y1 + X2 - X1);
-
-            FRpower = -(Y1 - X2 - X1);
-
-            BRpower = (Y1 - X2 + X1);
-
-        } else {
-
-            FLpower = -(Y1 + X2 + X1) / 2;
-
-            BLpower = (Y1 + X2 - X1) / 2;
-
-            FRpower = -(Y1 - X2 - X1) / 2;
-
-            BRpower = (Y1 - X2 + X1) / 2;
-
-        }
-
-        */
-
-
     }
 
     public void setPosition(int fr, int fl, int br, int bl){
-        //
-
         // Sets the motor position to something and the runs it.
 
         motorFR.setTargetPosition(fr);
@@ -284,14 +203,7 @@ public class Mecanum{
 
     public void setPowerD(double power) {
 
-        //
-
-        // Sets the power of the motor
-
-        //
-
         BasePower = power;
-
 
     }
 
@@ -303,9 +215,6 @@ public class Mecanum{
         double distance = 0;
 
         double wheel_rotation = 0;
-
-
-        //distance = dis_sensor.getWheelDistance();
 
         wheel_rotation = distance / wheel_diameter;
 
@@ -347,32 +256,16 @@ public class Mecanum{
     public void run_left() {
 
         FLpower = -BasePower;
-
         BLpower = BasePower;
-
         FRpower = -BasePower;
-
         BRpower = BasePower;
-
-        //
 
         // The positive and negative inputs only mean direction, not speed.
 
-        //
-
         motorFR.setPower(FRpower);
-
         motorBR.setPower(BRpower);
-
         motorFL.setPower(FLpower);
-
         motorBL.setPower(BLpower);
-
-        //
-
-        // This sets the motors that go into DemoAutonomous.
-
-        //
 
     }
 
@@ -418,12 +311,6 @@ public class Mecanum{
 
         BRpower = -BasePower;
 
-        //
-
-        // The positive and negative inputs only mean direction, not speed.
-
-        //
-
 
         motorFR.setPower(-FRpower);
 
@@ -433,11 +320,6 @@ public class Mecanum{
 
         motorBL.setPower(-BLpower);
 
-        //
-
-        // This sets the motors that go into DemoAutonomous.
-
-        //
 
     }
 
@@ -772,11 +654,23 @@ public class Mecanum{
 
     }
 
+    public void drive_forward_gyro(double lpower, double rpower){
+        FLpower = lpower;
+        BLpower = lpower;
+        FRpower = -rpower;
+        BRpower = -rpower;
+    }
 
     public double getSpeed() {
-
         return BasePower;
+    }
 
+    public Boolean isBusy(){
+        if (motorFR.isBusy() || motorBL.isBusy()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -61,9 +62,9 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="nergroid", group="Pushbot")
+@Autonomous(name="motorConfigure", group="Pushbot")
 
-public class nigboi extends LinearOpMode {
+public class ConfigTester extends LinearOpMode {
 
     /* Declare OpMode members. */
 
@@ -87,6 +88,7 @@ public class nigboi extends LinearOpMode {
 
         waitForStart();
 
+        /*
         runtime.reset();
 
         motorFR.setPower(.7);
@@ -116,6 +118,14 @@ public class nigboi extends LinearOpMode {
 
         }
         motorBL.setPower(0);
+        */
+
+        while(opModeIsActive()){
+            motorFR.setPower(1.0);
+            motorFL.setPower(1.0);
+            motorBL.setPower(1.0);
+            motorBR.setPower(1.0);
+        }
 
 
         motorFL.setPower(0);

@@ -38,11 +38,18 @@ public class BlueAuto extends LinearOpMode {
     private DcMotor motorBR;
     private DcMotor motorBL;
 
+    //Mecanum
     Mecanum bot = new Mecanum();
 
+    //Camera initialize
     VuforiaLocalizer vuforia;
 
+    //Gyro Initialize
+    AdafruitIMU imu = new AdafruitIMU();
+
     private static final Double ticks_per_inch = 510 / (3.1415 * 4);
+    private static final Double CORRECTION = .04;
+    private static final Double THRESHOLD = 2.0;
 
     public void runOpMode(){
         //motors
@@ -67,14 +74,12 @@ public class BlueAuto extends LinearOpMode {
         //IMU
         AdafruitIMU imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
 
-
         waitForStart();
 
-        imu.start();
 //////////////////////////////////////////////////////////////////////////play!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        imu.start();
         //STATE ONE: MOVE FORWARD
         encoderDrive(5,"forward",.5);
-
 
         //STATE TWO: DETECT BALLS
 
@@ -133,10 +138,39 @@ public class BlueAuto extends LinearOpMode {
         bot.reset_encoders();
     }
 
-    public void encoderTurn(double degrees,double power){
+    public void gyroDrive(double inches, String direction , double power){
         int encoderval;
+        double firstheading = imu.getHeading();
+        double headingChange= 0;
 
+        // Sets the encoders
+        bot.reset_encoders();
+        encoderval = ticks_per_inch.intValue() * (int) inches;
+        bot.run_to_position();
+        // Uses the encoders and motors to set the specific position
 
+        bot.setPosition(encoderval,encoderval,encoderval,encoderval);
+
+        // Sets the power and direction
+
+        bot.setPowerD(power);
+
+        if (direction == "forward"){
+            bot.run_forward();
+        } else if(direction == "backward") {
+            bot.run_backward();
+        }
+        while(bot.isBusy()){
+            headingChange = imu.getHeading() - firstheading;
+            if(headingChange<-THRESHOLD){
+                bot.drive_forward_gyro(power + (Math.abs(headingChange * CORRECTION)), power);
+            }else if(headingChange>THRESHOLD){
+                bot.drive_forward_gyro(power, power + (Math.abs(headingChange * CORRECTION)));
+            }
+
+        }
+
+        bot.brake();
+        bot.reset_encoders();
     }
-
 }
