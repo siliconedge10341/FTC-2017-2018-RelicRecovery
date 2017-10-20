@@ -173,4 +173,21 @@ public class BlueAuto extends LinearOpMode {
         bot.brake();
         bot.reset_encoders();
     }
+
+    public void gyroTurn(double angle, String direction, double power){
+        double aheading = Math.abs(imu.getHeading()) + angle;
+        bot.setPowerD(power);
+
+        if (direction == "left"){
+            bot.turn_left();
+        }else if(direction == "right"){
+            bot.turn_right();
+        }
+        while(bot.isBusy()){
+            if(Math.abs(imu.getHeading()) >= (aheading - THRESHOLD)&&(Math.abs(imu.getHeading()) <= (aheading + THRESHOLD))){
+                bot.brake();
+            }
+        }
+
+    }
 }
