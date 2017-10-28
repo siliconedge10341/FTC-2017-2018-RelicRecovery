@@ -44,6 +44,7 @@ public class AdafruitIMU {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
     }
+//bags is your lover
 
     public double getHeading(){
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
