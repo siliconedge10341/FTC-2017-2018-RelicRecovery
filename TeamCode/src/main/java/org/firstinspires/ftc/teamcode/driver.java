@@ -21,8 +21,10 @@ public class driver extends OpMode{
     private DcMotor motorBR;
     private DcMotor motorBL;
 
-    private Servo armServo;
-    double Servopos = (Servo.MAX_POSITION-.5);
+    private Servo armServoL;
+    private Servo armServoR;
+    double ServoposL = (Servo.MIN_POSITION);
+    double ServoposR = (Servo.MAX_POSITION);
 
 
     double Ch1;
@@ -49,8 +51,11 @@ public class driver extends OpMode{
         motorBL = hardwareMap.dcMotor.get("bl");
         motorBR = hardwareMap.dcMotor.get("br");
 
-        armServo = hardwareMap.servo.get("arm_servo");
-        armServo.setPosition(Servopos);
+        armServoL = hardwareMap.servo.get("arm_servoL");
+        armServoL.setPosition(ServoposL);
+
+        armServoR = hardwareMap.servo.get("arm_servoR");
+        armServoR.setPosition(ServoposR);
 
 
         // Servos
@@ -118,26 +123,33 @@ public class driver extends OpMode{
         motorBL.setPower( -(Ch3 + Ch1 - Ch4));
 
         if(gamepad1.dpad_left){
-            Servopos -= .01;
+            ServoposL += .01;
+            ServoposR -= .01;
         }else if(gamepad1.dpad_right){
-            Servopos += .01;
+            ServoposL -= .01;
+            ServoposR += .01;
         }
-        if (Servopos > Servo.MAX_POSITION){
-            Servopos = Servo.MAX_POSITION;
+        if (ServoposL > Servo.MAX_POSITION){
+            ServoposL = Servo.MAX_POSITION;
         }
-        if (Servopos < Servo.MIN_POSITION){
-            Servopos = Servo.MIN_POSITION;
+        if (ServoposL < Servo.MIN_POSITION){
+            ServoposL = Servo.MIN_POSITION;
         }
-        armServo.setPosition(Servopos);
+        if (ServoposR > Servo.MAX_POSITION){
+            ServoposR = Servo.MAX_POSITION;
+        }
+        if (ServoposR < Servo.MIN_POSITION){
+            ServoposR = Servo.MIN_POSITION;
+        }
+        armServoL.setPosition(ServoposL);
+        armServoR.setPosition(ServoposR);
 
-        telemetry.addData("Servopos :" , Servopos);
+        telemetry.addData("Servopos Left:" , ServoposL);
         telemetry.update();
-        //
-        //
+
         // Runs the collector
         //
 
-            // Lower
 
     }
 

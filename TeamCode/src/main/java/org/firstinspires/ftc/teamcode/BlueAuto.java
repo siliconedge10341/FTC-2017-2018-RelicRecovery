@@ -98,7 +98,11 @@ public class BlueAuto extends LinearOpMode {
         }
         //STATE FOUR: TURN ROBOT
 
+        gyroTurn(90,"left",.4);
+
         //STATE FIVE: GO TO MOUNTAIN
+
+        gyroDrive(20,"forward",.4);
 
         //STATE SIX: STACK BLOCK
 
