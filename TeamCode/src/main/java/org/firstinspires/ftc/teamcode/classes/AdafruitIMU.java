@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -58,6 +59,20 @@ public class AdafruitIMU {
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.secondAngle;
     }
+    public double getVelocityX(){
+        Velocity v = imu.getVelocity();
+        return v.xVeloc;
+    }
+    public double getVelocityY(){
+        Velocity v = imu.getVelocity();
+        return v.yVeloc;
+    }
+    public double getVelocityZ(){
+        Velocity v = imu.getVelocity();
+        return v.zVeloc;
+    }
+
+
 
 
 }

@@ -24,6 +24,9 @@ public class imuTester extends LinearOpMode{
 
         while (opModeIsActive()){
             telemetry.addData("Heading: ", imu.getHeading());
+            telemetry.addData("Velocity X" , imu.getVelocityX());
+            telemetry.addData("Velocity Y" , imu.getVelocityY());
+            telemetry.addData("Velocity Z" , imu.getVelocityZ());
             telemetry.update();
         }
     }

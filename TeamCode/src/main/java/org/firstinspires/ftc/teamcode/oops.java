@@ -72,8 +72,8 @@ public class oops extends OpMode
 
     double flspeedcoefficient = -.9;
     double blspeedcoefficient = -.9;
-    double frspeedcoefficient = -.9;
-    double brspeedcoefficient = -.9;
+    double frspeedcoefficient = .9;
+    double brspeedcoefficient = .9;
 
 
 

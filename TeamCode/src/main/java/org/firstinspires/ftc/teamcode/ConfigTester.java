@@ -62,7 +62,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="motorConfigure", group="Pushbot")
+@Autonomous(name="motorConfigure rrt", group="Pushbot")
 
 public class ConfigTester extends LinearOpMode {
 
@@ -88,16 +88,17 @@ public class ConfigTester extends LinearOpMode {
 
         waitForStart();
 
-        /*
+
         runtime.reset();
 
-        motorFR.setPower(.7);
+        motorFR.setPower(.2);
         while (runtime.seconds()<=1){
             telemetry.addLine("Front Right");
         }
+        motorFR.setPower(0);
 
         runtime.reset();
-        motorFL.setPower(.7);
+        motorFL.setPower(.2);
         while (runtime.seconds()<=1){
             telemetry.addLine("Front LeFT");
 
@@ -105,27 +106,20 @@ public class ConfigTester extends LinearOpMode {
         motorFL.setPower(0);
 
         runtime.reset();
-        motorBR.setPower(.7);
+        motorBR.setPower(.2);
         while (runtime.seconds()<=1){
             telemetry.addLine("Back Right");
         }
         motorBR.setPower(0);
 
         runtime.reset();
-        motorBL.setPower(.7);
+        motorBL.setPower(.2);
         while (runtime.seconds()<=1){
             telemetry.addLine("Back LeFT");
 
         }
         motorBL.setPower(0);
-        */
 
-        while(opModeIsActive()){
-            motorFR.setPower(1.0);
-            motorFL.setPower(1.0);
-            motorBL.setPower(1.0);
-            motorBR.setPower(1.0);
-        }
 
 
         motorFL.setPower(0);

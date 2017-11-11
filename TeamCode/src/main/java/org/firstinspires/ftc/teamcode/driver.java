@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,6 +10,8 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
 
 @TeleOp(name = "MecanumDrive", group = "Drive")
 public class driver extends OpMode{
@@ -21,16 +24,14 @@ public class driver extends OpMode{
     private DcMotor motorBR;
     private DcMotor motorBL;
 
-    private Servo armServoL;
-    private Servo armServoR;
+    private Servo armServoL1;
+    private Servo armServoL2;
     double ServoposL = (Servo.MIN_POSITION);
-    double ServoposR = (Servo.MAX_POSITION);
 
 
     double Ch1;
     double Ch3;
     double Ch4 ;
-
 
     // Servos
 
@@ -51,14 +52,11 @@ public class driver extends OpMode{
         motorBL = hardwareMap.dcMotor.get("bl");
         motorBR = hardwareMap.dcMotor.get("br");
 
-        armServoL = hardwareMap.servo.get("arm_servoL");
-        armServoL.setPosition(ServoposL);
+        armServoL1 = hardwareMap.servo.get("arm_servoL1");
+        armServoL1.setPosition(ServoposL);
 
-        armServoR = hardwareMap.servo.get("arm_servoR");
-        armServoR.setPosition(ServoposR);
-
-
-        // Servos
+        armServoL2 = hardwareMap.servo.get("arm_servoL2");
+        armServoL2.setPosition(ServoposL);
 
 
     }
@@ -116,39 +114,28 @@ public class driver extends OpMode{
         Ch4 = gamepad1.left_stick_x;
 
         motorFR.setPower( -(Ch3 - Ch1 - Ch4));
-        motorFL.setPower( -(Ch3 + Ch1 + Ch4));
+        motorFL.setPower( (Ch3 + Ch1 + Ch4));
 
 
         motorBR.setPower(-(Ch3 - Ch1 + Ch4));
-        motorBL.setPower( -(Ch3 + Ch1 - Ch4));
+        motorBL.setPower((Ch3 + Ch1 - Ch4));
 
         if(gamepad1.dpad_left){
-            ServoposL += .01;
-            ServoposR -= .01;
+            ServoposL = 1;
+           // ServoposR = 0;
         }else if(gamepad1.dpad_right){
-            ServoposL -= .01;
-            ServoposR += .01;
+            ServoposL = .5;
+           // ServoposR = .5;
         }
-        if (ServoposL > Servo.MAX_POSITION){
-            ServoposL = Servo.MAX_POSITION;
-        }
-        if (ServoposL < Servo.MIN_POSITION){
-            ServoposL = Servo.MIN_POSITION;
-        }
-        if (ServoposR > Servo.MAX_POSITION){
-            ServoposR = Servo.MAX_POSITION;
-        }
-        if (ServoposR < Servo.MIN_POSITION){
-            ServoposR = Servo.MIN_POSITION;
-        }
-        armServoL.setPosition(ServoposL);
-        armServoR.setPosition(ServoposR);
+        armServoL1.setPosition(ServoposL);
+        armServoL2.setPosition(ServoposL);
 
         telemetry.addData("Servopos Left:" , ServoposL);
         telemetry.update();
 
         // Runs the collector
         //
+
 
 
     }
