@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 /**
- * Created by Pawan,
+ * Created by Durga,
  */
 
 
@@ -45,7 +45,7 @@ public class AdafruitIMU {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
     }
-//bags is your lover
+//Durga is your lover
 
     public double getHeading(){
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -71,6 +71,10 @@ public class AdafruitIMU {
         Velocity v = imu.getVelocity();
         return v.zVeloc;
     }
+    public double getAccelX(){
+        return  imu.getAcceleration().xAccel;
+    }
+
 
 
 
