@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
  * Created by vatty on 9/16/2017.
  */
 
-@Autonomous(name = "imuTester")
+@Autonomous(name = "colorTester")
 public class ColorSensorTester extends LinearOpMode{
     ColorSensor sensorColor;
 
@@ -25,6 +25,7 @@ public class ColorSensorTester extends LinearOpMode{
             telemetry.addData("Red  ", sensorColor.red());
             telemetry.addData("Green", sensorColor.green());
             telemetry.addData("Blue ", sensorColor.blue());
+            telemetry.addData("Hu" , sensorColor.argb());
 
             telemetry.update();
         }

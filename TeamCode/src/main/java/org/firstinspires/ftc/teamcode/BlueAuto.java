@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -52,6 +53,9 @@ public class BlueAuto extends LinearOpMode {
     //Color sensor
     ColorSensor sensorColor;
 
+    //Servos
+    Servo jewelHitter;
+
     private static final Double ticks_per_inch = 510 / (3.1415 * 4);
     private static final Double CORRECTION = .04;
     private static final Double THRESHOLD = 2.0;
@@ -82,6 +86,10 @@ public class BlueAuto extends LinearOpMode {
         //Color Sensor
         sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
 
+        //Servo
+        jewelHitter = hardwareMap.servo.get("servo_hitter");
+        jewelHitter.setPosition(0);
+
 
         waitForStart();
 
@@ -91,6 +99,7 @@ public class BlueAuto extends LinearOpMode {
         encoderDrive(5,"forward",.5);
 
         //STATE TWO: DETECT BALLS
+        jewelHitter.setPosition(.75);
 
         //STATE THREE: SCAN VUMARK
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);

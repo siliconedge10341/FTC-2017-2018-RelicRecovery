@@ -28,6 +28,7 @@ public class imuTester extends LinearOpMode{
             telemetry.addData("Velocity Y" , imu.getVelocityY());
             telemetry.addData("Velocity Z" , imu.getVelocityZ());
             telemetry.addData("Acceleration X" , imu.getAccelX());
+            telemetry.addData("Acceleration Z" , imu.getAccelZ());
             telemetry.addData("Gravity" , imu.getGravity());
             telemetry.update();
         }
