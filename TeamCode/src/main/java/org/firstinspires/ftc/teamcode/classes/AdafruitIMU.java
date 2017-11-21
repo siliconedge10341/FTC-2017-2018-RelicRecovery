@@ -74,6 +74,9 @@ public class AdafruitIMU {
     public double getAccelX(){
         return  imu.getAcceleration().xAccel;
     }
+    public String getGravity(){
+        return imu.getGravity().toString();
+    }
 
 
 
