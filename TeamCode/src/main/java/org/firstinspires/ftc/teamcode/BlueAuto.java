@@ -5,7 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -30,7 +33,6 @@ import org.firstinspires.ftc.teamcode.classes.Mecanum;
  * Created by vatty on 9/15/2017.
  */
 @Autonomous(name="BlueAuto", group="Pushbot")
-
 public class BlueAuto extends LinearOpMode {
 
     private DcMotor motorFR;
@@ -46,6 +48,9 @@ public class BlueAuto extends LinearOpMode {
 
     //Gyro Initialize
     AdafruitIMU imu = new AdafruitIMU();
+
+    //Color sensor
+    ColorSensor sensorColor;
 
     private static final Double ticks_per_inch = 510 / (3.1415 * 4);
     private static final Double CORRECTION = .04;
@@ -74,6 +79,10 @@ public class BlueAuto extends LinearOpMode {
         //IMU
         AdafruitIMU imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
 
+        //Color Sensor
+        sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
+
+
         waitForStart();
 
 //////////////////////////////////////////////////////////////////////////play!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -82,7 +91,6 @@ public class BlueAuto extends LinearOpMode {
         encoderDrive(5,"forward",.5);
 
         //STATE TWO: DETECT BALLS
-
 
         //STATE THREE: SCAN VUMARK
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
@@ -102,7 +110,7 @@ public class BlueAuto extends LinearOpMode {
 
         //STATE FIVE: GO TO MOUNTAIN
 
-        gyroDrive(20,"forward",.4);
+        encoderDrive(20,"forward",.4);
 
         //STATE SIX: STACK BLOCK
 
@@ -142,7 +150,7 @@ public class BlueAuto extends LinearOpMode {
         bot.reset_encoders();
     }
 
-    public void gyroDrive(double inches, String direction , double power){
+    /*public void gyroDrive(double inches, String direction , double power){
         int encoderval;
         double firstheading = imu.getHeading();
         double headingChange= 0;
@@ -176,7 +184,7 @@ public class BlueAuto extends LinearOpMode {
 
         bot.brake();
         bot.reset_encoders();
-    }
+    }*/
 
     public void gyroTurn(double angle, String direction, double power){
         double aheading = Math.abs(imu.getHeading()) + angle;
