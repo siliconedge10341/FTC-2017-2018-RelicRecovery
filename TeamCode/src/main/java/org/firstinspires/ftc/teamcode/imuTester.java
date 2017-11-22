@@ -14,21 +14,27 @@ import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
 public class imuTester extends LinearOpMode{
     AdafruitIMU imu = new AdafruitIMU();
 
+    double accel;
+    double vel;
+
     public void runOpMode(){
         imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
 
         imu.init();
+        accel = 0;
 
         waitForStart();
         imu.start();
 
         while (opModeIsActive()){
+
+            accel = Math.sqrt(imu.getAccelX()*imu.getAccelX() + imu.getAccelZ()*imu.getAccelZ() + imu.getAccelY()*imu.getAccelY());
+            //vel = Math.sqrt(imu.getVelocityX()*imu.getAccelX()+imu.getVelocityY()*imu.getVelocityY()+imu.getVelocityZ()*imu.getVelocityZ());
+
             telemetry.addData("Heading: ", imu.getHeading());
-            telemetry.addData("Velocity X" , imu.getVelocityX());
-            telemetry.addData("Velocity Y" , imu.getVelocityY());
-            telemetry.addData("Velocity Z" , imu.getVelocityZ());
-            telemetry.addData("Acceleration X" , imu.getAccelX());
-            telemetry.addData("Acceleration Z" , imu.getAccelZ());
+            //telemetry.addData("Velocity " , vel);
+
+            telemetry.addData("Acceleration" , accel);
             telemetry.addData("Gravity" , imu.getGravity());
             telemetry.update();
         }

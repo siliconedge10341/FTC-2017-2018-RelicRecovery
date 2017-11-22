@@ -29,8 +29,10 @@ public class driver extends OpMode{
     private Servo armServoR1;
     private Servo armServoR2;
 
-    double ServoposL = (Servo.MIN_POSITION);
-    double ServoposR = Servo.MAX_POSITION;
+    double ServoposL = 1;
+    double ServoposL1 = 1;
+    double ServoposR = 0;
+    double ServoposR1 = 1;
 
     ElapsedTime time = new ElapsedTime();
 
@@ -96,30 +98,33 @@ public class driver extends OpMode{
         motorBR.setPower(speedcoef * -(Ch3 - Ch1 + Ch4));
         motorBL.setPower(speedcoef * (Ch3 + Ch1 - Ch4));
 
-        if(gamepad1.dpad_left){
+        if(gamepad1.left_bumper){
             ServoposL = 1;
             ServoposR = 0;
-        }else if(gamepad1.dpad_right){
-            ServoposL = .48;
-            ServoposR = .52;
+        }else if(gamepad1.right_bumper){
+            ServoposL = .38;
+            ServoposR = .7;
+        }if(gamepad1.left_trigger>.8){
+            ServoposL1 = 1;
+            ServoposR1 = 0;
+        }else if(gamepad1.right_trigger>.8){
+            ServoposL1 = .38;
+            ServoposR1 = .7;
         }
         armServoL1.setPosition(ServoposL);
-        armServoL2.setPosition(ServoposL);
+        armServoL2.setPosition(ServoposL1);
         armServoR1.setPosition(ServoposR);
-        armServoR2.setPosition(ServoposR);
+        armServoR2.setPosition(ServoposR1);
 
-       /* if(gamepad1.a){
-            time.startTime();
-        }else if(!gamepad1.a && time.milliseconds()>=1000){
-            time.reset();
-            if(speedcoef == 0.5){
-                speedcoef = 1.0;
-            }else{
-                speedcoef = .5;
-            }
-        }*/
+       if(gamepad1.a){
+            speedcoef = .5;
+        }else{
+           speedcoef = 1;
+       }
 
         telemetry.addData("Servopos Left:" , ServoposL);
+        telemetry.addData("Servopos Right: " , ServoposR);
+        telemetry.addData("Speed coeff" , speedcoef);
         telemetry.update();
 
         // Runs the collector

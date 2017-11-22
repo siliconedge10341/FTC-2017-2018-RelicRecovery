@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.classes.Mecanum;
 /**
  * Created by vatty on 9/15/2017.
  */
-@Autonomous(name="Auto Fund tester", group="Push")
+@Autonomous(name="Auto Func tester", group="Push")
 
 public class AutoFuncTester extends LinearOpMode {
 
@@ -60,17 +60,8 @@ public class AutoFuncTester extends LinearOpMode {
         imu.start();
 
 
-        encoderDrive(5,"forward",.5);
+       gyroTurn(90,"right",.5);
 
-
-
-        //gyroTurn(90,"left",.4);
-
-        //STATE FIVE: GO TO MOUNTAIN
-
-        //gyroDrive(20,"forward",.4);
-
-        //STATE SIX: STACK BLOCK
 
 
 
@@ -108,49 +99,16 @@ public class AutoFuncTester extends LinearOpMode {
         bot.reset_encoders();
     }
 
-    public void gyroDrive(double inches, String direction , double power){
-        int encoderval;
-        double firstheading = imu.getHeading();
-        double headingChange= 0;
-
-        // Sets the encoders
-        bot.reset_encoders();
-        encoderval = ticks_per_inch.intValue() * (int) inches;
-        bot.run_to_position();
-        // Uses the encoders and motors to set the specific position
-
-        bot.setPosition(encoderval,encoderval,encoderval,encoderval);
-
-        // Sets the power and direction
-
-        bot.setPowerD(power);
-
-        if (direction == "forward"){
-            bot.run_forward();
-        } else if(direction == "backward") {
-            bot.run_backward();
-        }
-        while(bot.isBusy()){
-            headingChange = imu.getHeading() - firstheading;
-            if(headingChange<-THRESHOLD){
-                bot.drive_forward_gyro(power + (Math.abs(headingChange * CORRECTION)), power);
-            }else if(headingChange>THRESHOLD){
-                bot.drive_forward_gyro(power, power + (Math.abs(headingChange * CORRECTION)));
-            }
-
-        }
-
-        bot.brake();
-        bot.reset_encoders();
-    }
 
     public void gyroTurn(double angle, String direction, double power){
         double aheading = Math.abs(imu.getHeading()) + angle;
         bot.setPowerD(power);
 
         if (direction == "left"){
+            aheading = Math.abs(imu.getHeading()) - angle;
             bot.turn_left();
         }else if(direction == "right"){
+            aheading = Math.abs(imu.getHeading()) + angle;
             bot.turn_right();
         }
         while(bot.isBusy()){
