@@ -60,9 +60,7 @@ public class AutoFuncTester extends LinearOpMode {
         imu.start();
 
 
-       gyroTurn(90,"right",.5);
-
-
+        gyroTurn(90,"right",.5);
 
 
     }
@@ -102,6 +100,7 @@ public class AutoFuncTester extends LinearOpMode {
 
     public void gyroTurn(double angle, String direction, double power){
         double aheading = Math.abs(imu.getHeading()) + angle;
+        bot.run_without_encoders();
         bot.setPowerD(power);
 
         if (direction == "left"){
