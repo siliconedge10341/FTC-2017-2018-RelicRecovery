@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -25,6 +26,7 @@ public class AutoFuncTester extends LinearOpMode {
     private DcMotor motorBR;
     private DcMotor motorBL;
 
+    ElapsedTime timer = new ElapsedTime();
     //Mecanum
     Mecanum bot = new Mecanum();
 
@@ -36,7 +38,7 @@ public class AutoFuncTester extends LinearOpMode {
 
     private static final Double ticks_per_inch = 510 / (3.1415 * 4);
     private static final Double CORRECTION = .04;
-    private static final Double THRESHOLD = 2.0;
+    private static final Double THRESHOLD = 5.0;
 
     public void runOpMode(){
         //motors
@@ -51,7 +53,7 @@ public class AutoFuncTester extends LinearOpMode {
         bot = new Mecanum(motorFR,motorFL,motorBR,motorBL);
 
         //IMU
-        AdafruitIMU imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
+        imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
 
         imu.init();
 
@@ -59,8 +61,15 @@ public class AutoFuncTester extends LinearOpMode {
 
         imu.start();
 
+        gyroTurnRight(90,"right",.22);
 
-        gyroTurn(90,"right",.5);
+        timer.reset();
+        timer.startTime();
+        while(timer.seconds() < 10){
+            //nigger
+        }
+
+
 
 
     }
@@ -98,23 +107,59 @@ public class AutoFuncTester extends LinearOpMode {
     }
 
 
-    public void gyroTurn(double angle, String direction, double power){
-        double aheading = Math.abs(imu.getHeading()) + angle;
+    public void gyroTurnRight(double angle, String direction, double power){
+        double aheading = imu.getHeading() + angle;
+        boolean gua = false;
         bot.run_without_encoders();
         bot.setPowerD(power);
 
-        if (direction == "left"){
-            aheading = Math.abs(imu.getHeading()) - angle;
-            bot.turn_left();
-        }else if(direction == "right"){
+        while(opModeIsActive() && gua==false) {
             aheading = Math.abs(imu.getHeading()) + angle;
             bot.turn_right();
-        }
-        while(bot.isBusy()){
-            if(Math.abs(imu.getHeading()) >= (aheading - THRESHOLD)&&(Math.abs(imu.getHeading()) <= (aheading + THRESHOLD))){
+
+            telemetry.addData("Heading", imu.getHeading());
+            telemetry.addData("Target Angle", aheading);
+            telemetry.update();
+            if (imu.getHeading() >= (aheading - THRESHOLD) && (imu.getHeading() <= (aheading + THRESHOLD))) {
                 bot.brake();
+                gua=true;
+            }
+
+        }
+        if(imu.getHeading()-aheading>1){
+            bot.run_without_encoders();
+            bot.setPowerD(power);
+            gua = false;
+            while(opModeIsActive() && gua==false) {
+                bot.turn_right();
+
+                telemetry.addData("Heading", imu.getHeading());
+                telemetry.addData("Target Angle", aheading);
+                telemetry.update();
+                if (imu.getHeading() >= (angle - THRESHOLD*.5) && (imu.getHeading() <= (angle + THRESHOLD*.5))) {
+                    bot.brake();
+                    gua=true;
+                }
+
+            }
+        }else if(imu.getHeading()-aheading<1){
+            bot.run_without_encoders();
+            bot.setPowerD(power);
+            gua = false;
+            while(opModeIsActive() && gua==false) {
+                bot.turn_left();
+
+                telemetry.addData("Heading", imu.getHeading());
+                telemetry.addData("Target Angle", aheading);
+                telemetry.update();
+                if (imu.getHeading() >= (angle - THRESHOLD*.5) && (imu.getHeading() <= (angle + THRESHOLD*.5))) {
+                    bot.brake();
+                    gua=true;
+                }
+
             }
         }
+        bot.brake();
 
     }
 

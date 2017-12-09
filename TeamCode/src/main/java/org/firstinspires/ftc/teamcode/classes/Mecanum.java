@@ -226,7 +226,7 @@ public class Mecanum{
 
     // methods
 
-    public void run_motor(DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL) {
+    public void run_motor() {
 
         motorFR.setPower(FRpower);
 
@@ -486,11 +486,8 @@ public class Mecanum{
     public void turn_right() {
 
         FLpower = BasePower;
-
         BLpower = BasePower;
-
         FRpower = BasePower;
-
         BRpower = BasePower;
 
         // The positive and negative inputs only mean direction, not speed.
@@ -672,5 +669,7 @@ public class Mecanum{
             return false;
         }
     }
+
+
 
 }

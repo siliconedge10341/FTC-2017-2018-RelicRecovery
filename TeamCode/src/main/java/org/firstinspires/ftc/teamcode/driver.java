@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
 
 
 @TeleOp(name = "MecanumDrive", group = "Drive")
@@ -31,14 +32,15 @@ public class driver extends OpMode{
 
     double ServoposL = 1;
     double ServoposL1 = 1;
-    double ServoposR = 0;
-    double ServoposR1 = 1;
+    double ServoposR = .7;
+    double ServoposR1 = .7;
 
-    ElapsedTime time = new ElapsedTime();
+    AdafruitIMU imu;
 
     double Ch1;
     double Ch3;
     double Ch4 ;
+    double accel;
 
     int endtime = 0;
     boolean pressed;
@@ -65,27 +67,42 @@ public class driver extends OpMode{
         motorBR = hardwareMap.dcMotor.get("br");
 
         armServoL1 = hardwareMap.servo.get("arm_servoL1");
-        armServoL1.setPosition(ServoposL);
+        //armServoL1.setPosition(ServoposL);
 
         armServoL2 = hardwareMap.servo.get("arm_servoL2");
-        armServoL2.setPosition(ServoposL);
+       // armServoL2.setPosition(ServoposL);
 
         armServoR2 = hardwareMap.servo.get("arm_servoR2");
-        armServoR2.setPosition(ServoposL);
+        //armServoR2.setPosition(ServoposL);
 
         armServoR1 = hardwareMap.servo.get("arm_servoR1");
-        armServoR1.setPosition(ServoposL);
+        //armServoR1.setPosition(ServoposL);
+
+        armServoL1.setPosition(ServoposL-.29);
+        armServoL2.setPosition(ServoposL1-.25);
+        armServoR1.setPosition(ServoposR+.29);
+        armServoR2.setPosition(ServoposR1+.25);
+
+        imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
+        imu.init();
 
         pressed = false;
         endtime = 0;
         speedcoef = 1.0;
 
+        accel = 0;
+
+    }
+
+    @Override
+    public void start() {
+        imu.start();
     }
 
     // loop
     @Override
     public void loop() {
-
+        accel = Math.sqrt(imu.getAccelX()*imu.getAccelX() + imu.getAccelZ()*imu.getAccelZ() + imu.getAccelY()*imu.getAccelY());
 
         Ch1 = gamepad1.right_stick_x;
         Ch3 = gamepad1.left_stick_y;
@@ -102,19 +119,19 @@ public class driver extends OpMode{
             ServoposL = 1;
             ServoposR = 0;
         }else if(gamepad1.right_bumper){
-            ServoposL = .38;
-            ServoposR = .7;
+            ServoposL = .2;
+            ServoposR = 1.0;
         }if(gamepad1.left_trigger>.8){
-            ServoposL1 = 1;
-            ServoposR1 = 0;
+            ServoposL1 = .95;
+            ServoposR1 = .08;
         }else if(gamepad1.right_trigger>.8){
-            ServoposL1 = .38;
-            ServoposR1 = .7;
+            ServoposL1 = .32;
+            ServoposR1 = .75;
         }
-        armServoL1.setPosition(ServoposL);
-        armServoL2.setPosition(ServoposL1);
-        armServoR1.setPosition(ServoposR);
-        armServoR2.setPosition(ServoposR1);
+        armServoL1.setPosition(ServoposL-.29);
+        armServoL2.setPosition(ServoposL1-.29);
+        armServoR1.setPosition(ServoposR+.35);
+        armServoR2.setPosition(ServoposR1+.29);
 
        if(gamepad1.a){
             speedcoef = .5;
@@ -125,6 +142,7 @@ public class driver extends OpMode{
         telemetry.addData("Servopos Left:" , ServoposL);
         telemetry.addData("Servopos Right: " , ServoposR);
         telemetry.addData("Speed coeff" , speedcoef);
+        telemetry.addData("Acceleration" , accel);
         telemetry.update();
 
         // Runs the collector
