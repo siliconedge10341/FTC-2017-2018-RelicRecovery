@@ -13,22 +13,21 @@ public class Pixy {
     public Pixy(I2cDeviceSynch hardwaremap){
         pixy = hardwaremap;
         pixy.setI2cAddress(I2cAddr.create7bit(0x54));
-        I2cDeviceSynch.ReadWindow readWindow = new I2cDeviceSynch.ReadWindow (1, 26,
-                I2cDeviceSynch.ReadMode.REPEAT);
+        I2cDeviceSynch.ReadWindow readWindow = new I2cDeviceSynch.ReadWindow (1, 26, I2cDeviceSynch.ReadMode.REPEAT);
         pixy.setReadWindow(readWindow);
     }
 
     public void engage(){
         pixy.engage();
     }
-    double getX(){
+
+    public double getX(){
         return (pixy.read8(1));
     }
-    double getY(){
-        return (pixy.read8(1) );
+    public double getY(){
+        return (pixy.read8(2) );
     }
-
-    int numobjects(){
+    public int numobjects(){
        return (pixy.read8(0));
     }
 
