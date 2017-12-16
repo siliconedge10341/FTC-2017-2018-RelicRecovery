@@ -35,7 +35,7 @@ public class driver extends OpMode{
     double ServoposR = .7;
     double ServoposR1 = .7;
 
-    AdafruitIMU imu;
+    //AdafruitIMU imu;
 
     double Ch1;
     double Ch3;
@@ -83,8 +83,8 @@ public class driver extends OpMode{
         armServoR1.setPosition(ServoposR+.29);
         armServoR2.setPosition(ServoposR1+.25);
 
-        imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
-        imu.init();
+       // imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
+       // imu.init();
 
         pressed = false;
         endtime = 0;
@@ -96,13 +96,13 @@ public class driver extends OpMode{
 
     @Override
     public void start() {
-        imu.start();
+        //imu.start();
     }
 
     // loop
     @Override
     public void loop() {
-        accel = Math.sqrt(imu.getAccelX()*imu.getAccelX() + imu.getAccelZ()*imu.getAccelZ() + imu.getAccelY()*imu.getAccelY());
+        //accel = Math.sqrt(imu.getAccelX()*imu.getAccelX() + imu.getAccelZ()*imu.getAccelZ() + imu.getAccelY()*imu.getAccelY());
 
         Ch1 = gamepad1.right_stick_x;
         Ch3 = gamepad1.left_stick_y;
@@ -142,7 +142,7 @@ public class driver extends OpMode{
         telemetry.addData("Servopos Left:" , ServoposL);
         telemetry.addData("Servopos Right: " , ServoposR);
         telemetry.addData("Speed coeff" , speedcoef);
-        telemetry.addData("Acceleration" , accel);
+        //telemetry.addData("Acceleration" , accel);
         telemetry.update();
 
         // Runs the collector

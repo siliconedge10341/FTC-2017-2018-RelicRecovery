@@ -126,42 +126,33 @@ public class AutoFuncTester extends LinearOpMode {
             }
 
         }
-        if(imu.getHeading()-aheading>1){
-            bot.run_without_encoders();
-            bot.setPowerD(power);
-            gua = false;
-            while(opModeIsActive() && gua==false) {
-                bot.turn_right();
 
-                telemetry.addData("Heading", imu.getHeading());
-                telemetry.addData("Target Angle", aheading);
-                telemetry.update();
-                if (imu.getHeading() >= (angle - THRESHOLD*.5) && (imu.getHeading() <= (angle + THRESHOLD*.5))) {
-                    bot.brake();
-                    gua=true;
-                }
-
-            }
-        }else if(imu.getHeading()-aheading<1){
-            bot.run_without_encoders();
-            bot.setPowerD(power);
-            gua = false;
-            while(opModeIsActive() && gua==false) {
-                bot.turn_left();
-
-                telemetry.addData("Heading", imu.getHeading());
-                telemetry.addData("Target Angle", aheading);
-                telemetry.update();
-                if (imu.getHeading() >= (angle - THRESHOLD*.5) && (imu.getHeading() <= (angle + THRESHOLD*.5))) {
-                    bot.brake();
-                    gua=true;
-                }
-
-            }
-        }
         bot.brake();
 
     }
 
+    public void gyroTurnLeft(double angle, String direction, double power){
+        double aheading = imu.getHeading() - angle;
+        boolean gua = false;
+        bot.run_without_encoders();
+        bot.setPowerD(power);
+
+        while(opModeIsActive() && gua==false) {
+            aheading = Math.abs(imu.getHeading()) + angle;
+            bot.turn_left();
+
+            telemetry.addData("Heading", imu.getHeading());
+            telemetry.addData("Target Angle", aheading);
+            telemetry.update();
+            if (imu.getHeading() >= (aheading - THRESHOLD) && (imu.getHeading() <= (aheading + THRESHOLD))) {
+                bot.brake();
+                gua=true;
+            }
+
+        }
+
+        bot.brake();
+
+    }
 }
 //nbjl

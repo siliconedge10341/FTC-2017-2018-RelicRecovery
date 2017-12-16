@@ -83,7 +83,7 @@ public class BlueAuto extends LinearOpMode {
         bot = new Mecanum(motorFR,motorFL,motorBR,motorBL);
 
         //IMU
-        AdafruitIMU imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
+        imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
 
         //Color Sensor
         sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
@@ -117,7 +117,7 @@ public class BlueAuto extends LinearOpMode {
         }
         //STATE FOUR: TURN ROBOT
 
-        gyroTurn(90,"left",.4);
+        gyroTurnLeft(90,"left",.4);
 
         //STATE FIVE: GO TO MOUNTAIN
 
@@ -161,56 +161,53 @@ public class BlueAuto extends LinearOpMode {
         bot.reset_encoders();
     }
 
-    /*public void gyroDrive(double inches, String direction , double power){
-        int encoderval;
-        double firstheading = imu.getHeading();
-        double headingChange= 0;
 
-        // Sets the encoders
-        bot.reset_encoders();
-        encoderval = ticks_per_inch.intValue() * (int) inches;
-        bot.run_to_position();
-        // Uses the encoders and motors to set the specific position
 
-        bot.setPosition(encoderval,encoderval,encoderval,encoderval);
-
-        // Sets the power and direction
-
+    public void gyroTurnRight(double angle, String direction, double power){
+        double aheading = imu.getHeading() + angle;
+        boolean gua = false;
+        bot.run_without_encoders();
         bot.setPowerD(power);
 
-        if (direction == "forward"){
-            bot.run_forward();
-        } else if(direction == "backward") {
-            bot.run_backward();
-        }
-        while(bot.isBusy()){
-            headingChange = imu.getHeading() - firstheading;
-            if(headingChange<-THRESHOLD){
-                bot.drive_forward_gyro(power + (Math.abs(headingChange * CORRECTION)), power);
-            }else if(headingChange>THRESHOLD){
-                bot.drive_forward_gyro(power, power + (Math.abs(headingChange * CORRECTION)));
+        while(opModeIsActive() && gua==false) {
+            aheading = Math.abs(imu.getHeading()) + angle;
+            bot.turn_right();
+
+            telemetry.addData("Heading", imu.getHeading());
+            telemetry.addData("Target Angle", aheading);
+            telemetry.update();
+            if (imu.getHeading() >= (aheading - THRESHOLD) && (imu.getHeading() <= (aheading + THRESHOLD))) {
+                bot.brake();
+                gua=true;
             }
 
         }
 
         bot.brake();
-        bot.reset_encoders();
-    }*/
 
-    public void gyroTurn(double angle, String direction, double power){
-        double aheading = Math.abs(imu.getHeading()) + angle;
+    }
+
+    public void gyroTurnLeft(double angle, String direction, double power){
+        double aheading = imu.getHeading() - angle;
+        boolean gua = false;
+        bot.run_without_encoders();
         bot.setPowerD(power);
 
-        if (direction == "left"){
+        while(opModeIsActive() && gua==false) {
+            aheading = Math.abs(imu.getHeading()) + angle;
             bot.turn_left();
-        }else if(direction == "right"){
-            bot.turn_right();
-        }
-        while(bot.isBusy()){
-            if(Math.abs(imu.getHeading()) >= (aheading - THRESHOLD)&&(Math.abs(imu.getHeading()) <= (aheading + THRESHOLD))){
+
+            telemetry.addData("Heading", imu.getHeading());
+            telemetry.addData("Target Angle", aheading);
+            telemetry.update();
+            if (imu.getHeading() >= (aheading - THRESHOLD) && (imu.getHeading() <= (aheading + THRESHOLD))) {
                 bot.brake();
+                gua=true;
             }
+
         }
+
+        bot.brake();
 
     }
 }
