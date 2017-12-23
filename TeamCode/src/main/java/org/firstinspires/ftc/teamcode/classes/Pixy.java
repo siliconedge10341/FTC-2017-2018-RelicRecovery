@@ -24,9 +24,11 @@ public class Pixy {
     public double getX(){
         return (pixy.read8(1));
     }
+
     public double getY(){
         return (pixy.read8(2) );
     }
+
     public int numobjects(){
        return (pixy.read8(0));
     }

@@ -30,6 +30,8 @@ public class PixyTester extends LinearOpMode{
 
         while (opModeIsActive()){
             telemetry.addData("Data 1",cam.getX());
+            telemetry.addData("Data 2", cam.getY());
+            telemetry.addData("Data 0", cam.numobjects());
             telemetry.update();
 
         }

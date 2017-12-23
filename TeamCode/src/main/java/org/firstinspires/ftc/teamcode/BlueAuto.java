@@ -70,7 +70,7 @@ public class BlueAuto extends LinearOpMode {
         //Camera setup
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
         //Vuforia
@@ -98,10 +98,17 @@ public class BlueAuto extends LinearOpMode {
 //////////////////////////////////////////////////////////////////////////play!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         imu.start();
         //STATE ONE: MOVE FORWARD
-        encoderDrive(5,"forward",.5);
+        encoderDrive(2,"forward",.5);
 
         //STATE TWO: DETECT BALLS
         jewelHitter.setPosition(.75);
+        if(sensorColor.blue()>sensorColor.red()){
+            gyroTurnLeft(10,"oof",.3);
+            gyroTurnRight(10,"oof",.3);
+        }else{
+            gyroTurnRight(10,"oof",.3);
+            gyroTurnLeft(10,"oof",.3);
+        }
 
         //STATE THREE: SCAN VUMARK
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
@@ -165,12 +172,15 @@ public class BlueAuto extends LinearOpMode {
 
     public void gyroTurnRight(double angle, String direction, double power){
         double aheading = imu.getHeading() + angle;
+        if(aheading>360){
+            aheading=aheading-360;
+        }
         boolean gua = false;
         bot.run_without_encoders();
         bot.setPowerD(power);
 
         while(opModeIsActive() && gua==false) {
-            aheading = Math.abs(imu.getHeading()) + angle;
+            //aheading = Math.abs(imu.getHeading()) + angle;
             bot.turn_right();
 
             telemetry.addData("Heading", imu.getHeading());
@@ -194,7 +204,7 @@ public class BlueAuto extends LinearOpMode {
         bot.setPowerD(power);
 
         while(opModeIsActive() && gua==false) {
-            aheading = Math.abs(imu.getHeading()) + angle;
+            //aheading = Math.abs(imu.getHeading()) + angle;
             bot.turn_left();
 
             telemetry.addData("Heading", imu.getHeading());

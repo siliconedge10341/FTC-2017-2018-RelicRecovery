@@ -138,7 +138,7 @@ public class AutoFuncTester extends LinearOpMode {
         bot.setPowerD(power);
 
         while(opModeIsActive() && gua==false) {
-            aheading = Math.abs(imu.getHeading()) + angle;
+            //aheading = Math.abs(imu.getHeading()) + angle;
             bot.turn_left();
 
             telemetry.addData("Heading", imu.getHeading());
