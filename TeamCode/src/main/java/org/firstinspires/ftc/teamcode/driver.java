@@ -41,7 +41,7 @@ public class driver extends OpMode{
     double Ch3;
     double Ch4 ;
     double accel;
-
+    double speedv = 2;
     int endtime = 0;
     boolean pressed;
 
@@ -96,7 +96,7 @@ public class driver extends OpMode{
 
     @Override
     public void start() {
-        //imu.start();
+        //imu.start();`
     }
 
     // loop
@@ -104,6 +104,12 @@ public class driver extends OpMode{
     public void loop() {
         //accel = Math.sqrt(imu.getAccelX()*imu.getAccelX() + imu.getAccelZ()*imu.getAccelZ() + imu.getAccelY()*imu.getAccelY());
 
+        if (gamepad1.a){
+            speedv = 2;                   //fast
+        }
+        if (gamepad1.b){
+            speedv = 1;                   //slow
+        }
         Ch1 = gamepad1.right_stick_x;
         Ch3 = gamepad1.left_stick_y;
         Ch4 = gamepad1.left_stick_x;
@@ -133,11 +139,17 @@ public class driver extends OpMode{
         armServoR1.setPosition(ServoposR+.35);
         armServoR2.setPosition(ServoposR1+.29);
 
-       if(gamepad1.a){
+        if (speedv == 1){
+            speedcoef = .5;
+        }
+        if (speedv == 2){
+            speedcoef = 1;
+        }
+       /*if(gamepad1.a){
             speedcoef = .5;
         }else{
            speedcoef = 1;
-       }
+       }*/
 
         telemetry.addData("Servopos Left:" , ServoposL);
         telemetry.addData("Servopos Right: " , ServoposR);
