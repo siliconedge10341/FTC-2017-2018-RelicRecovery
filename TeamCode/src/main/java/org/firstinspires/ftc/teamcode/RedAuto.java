@@ -1,17 +1,31 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
 import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
 import org.firstinspires.ftc.teamcode.classes.Mecanum;
 
@@ -19,7 +33,7 @@ import org.firstinspires.ftc.teamcode.classes.Mecanum;
 /**
  * Created by vatty on 9/15/2017.
  */
-@Autonomous(name="BlueAuto", group="Pushbot")
+@Autonomous(name="ReadAuto 1", group="Pushbot")
 public class RedAuto extends LinearOpMode {
 
     private DcMotor motorFR;
@@ -45,6 +59,7 @@ public class RedAuto extends LinearOpMode {
     private static final Double ticks_per_inch = 510 / (3.1415 * 4);
     private static final Double CORRECTION = .04;
     private static final Double THRESHOLD = 2.0;
+    Double driveDistance;
 
     public void runOpMode(){
         //motors
@@ -78,6 +93,7 @@ public class RedAuto extends LinearOpMode {
         jewelHitter = hardwareMap.servo.get("servo_hitter");
         jewelHitter.setPosition(0);
 
+        driveDistance = 15.0;
 
 
         waitForStart();
@@ -96,18 +112,23 @@ public class RedAuto extends LinearOpMode {
             gyroTurnRight(10,"oof",.3);
             gyroTurnLeft(10,"oof",.3);
         }
+        jewelHitter.setPosition(0.0);
 
         //STATE THREE: SCAN VUMARK
+        encoderDrive(4.0,"oof",.3);
+
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         telemetry.addData("VuMark", "%s visible", vuMark);
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-
+            driveDistance = 15.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
-
+            driveDistance = 18.0;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-
+            driveDistance = 20.0;
+        }else{
+            driveDistance = 20.0;
         }
         //STATE FOUR: TURN ROBOT
 
@@ -115,11 +136,11 @@ public class RedAuto extends LinearOpMode {
 
         //STATE FIVE: GO TO MOUNTAIN
 
-        encoderDrive(20,"forward",.4);
+        encoderDrive(driveDistance,"forward",.4);
 
         //STATE SIX: STACK BLOCK
 
-
+        gyroTurnRight(90,"oof" , .3);
 
     }
 
@@ -130,7 +151,7 @@ public class RedAuto extends LinearOpMode {
         //
         bot.reset_encoders();
         encoderval = ticks_per_inch.intValue() * (int) inches;
-        bot.run_using_encoders();
+        bot.run_to_position();
         //
         // Uses the encoders and motors to set the specific position
         //
