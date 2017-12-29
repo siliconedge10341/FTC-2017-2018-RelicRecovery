@@ -81,7 +81,7 @@ public class AutoFuncTester extends LinearOpMode {
         //
         bot.reset_encoders();
         encoderval = ticks_per_inch.intValue() * (int) inches;
-        bot.run_using_encoders();
+        bot.run_to_position();
         //
         // Uses the encoders and motors to set the specific position
         //
