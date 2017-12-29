@@ -79,6 +79,7 @@ public class RedAuto extends LinearOpMode {
         jewelHitter.setPosition(0);
 
 
+
         waitForStart();
 
 //////////////////////////////////////////////////////////////////////////play!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

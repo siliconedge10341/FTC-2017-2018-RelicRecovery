@@ -34,7 +34,7 @@ import org.firstinspires.ftc.teamcode.classes.Mecanum;
  * Created by vatty on 9/15/2017.
  */
 @Autonomous(name="BlueAuto", group="Pushbot")
-public class BlueAuto extends LinearOpMode {
+public class RedAuto2 extends LinearOpMode {
 
     private DcMotor motorFR;
     private DcMotor motorFL;
@@ -100,7 +100,7 @@ public class BlueAuto extends LinearOpMode {
 //////////////////////////////////////////////////////////////////////////play!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         imu.start();
         //STATE ONE: MOVE FORWARD
-        encoderDrive(2,"forward",.5);
+        //encoderDrive(2,"forward",.5);
 
         //STATE TWO: DETECT BALLS
         jewelHitter.setPosition(.75);
