@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.classes.Mecanum;
  * Created by vatty on 9/15/2017.
  */
 @Autonomous(name="BlueAuto", group="Pushbot")
-public class RedAuto extends LinearOpMode {
+public class RedAuto1 extends LinearOpMode {
 
     private DcMotor motorFR;
     private DcMotor motorFL;
