@@ -122,25 +122,19 @@ public class RedAuto1 extends LinearOpMode {
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            driveDistance = 4.0;
+            driveDistance = 48.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
-            driveDistance = 5.5;
+            driveDistance = 36.0;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-            driveDistance = 7.0;
+            driveDistance = 24.0;
         }else{
-            driveDistance = 5.5;
+            driveDistance = 36.0;
         }
-        //STATE FOUR: TURN ROBOT
 
-        gyroTurnLeft(90,"left",.4);
+        //STATE FIVE: MOVE LEFT
+        encoderDrive(driveDistance,"left",.4);
 
-        //STATE FIVE: GO TO MOUNTAIN
 
-        encoderDrive(driveDistance,"forward",.4);
-
-        //STATE SIX: STACK BLOCK
-
-        gyroTurnRight(90,"oof" , .3);
 
     }
 
