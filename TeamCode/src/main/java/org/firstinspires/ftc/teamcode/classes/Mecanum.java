@@ -670,6 +670,17 @@ public class Mecanum{
         }
     }
 
+    public int testDistance(DcMotor A_Motor) {
+        // This takes any motor and tests the distance that that motor has traveled
+        // We only do one because all have traveled the same amount. Knowing Turns
+        // Do not count.
+
+        if (Math.abs(A_Motor.getCurrentPosition()) >= Math.abs(A_Motor.getTargetPosition())){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 
 
 }

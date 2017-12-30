@@ -33,7 +33,7 @@ import org.firstinspires.ftc.teamcode.classes.Mecanum;
 /**
  * Created by vatty on 9/15/2017.
  */
-@Autonomous(name="BlueAuto", group="Pushbot")
+@Autonomous(name="Red Auto 2", group="Pushbot")
 public class RedAuto2 extends LinearOpMode {
 
     private DcMotor motorFR;
@@ -100,7 +100,7 @@ public class RedAuto2 extends LinearOpMode {
 //////////////////////////////////////////////////////////////////////////play!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         imu.start();
         //STATE ONE: MOVE FORWARD
-        //encoderDrive(2,"forward",.5);
+        encoderDrive(2,"forward",.5);
 
         //STATE TWO: DETECT BALLS
         jewelHitter.setPosition(.75);
@@ -114,32 +114,31 @@ public class RedAuto2 extends LinearOpMode {
         jewelHitter.setPosition(0.0);
 
         //STATE THREE: SCAN VUMARK
-        encoderDrive(4.0,"oof",.3);
+        encoderDrive(22.0,"left",.4);
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         telemetry.addData("VuMark", "%s visible", vuMark);
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            driveDistance = 15.0;
+            driveDistance = 12.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
-            driveDistance = 18.0;
+            driveDistance = 14.0;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-            driveDistance = 20.0;
+            driveDistance = 16.0;
         }else{
-            driveDistance = 20.0;
+            driveDistance = 12.0;
         }
         //STATE FOUR: TURN ROBOT
 
-        gyroTurnLeft(90,"left",.4);
+        //gyroTurnLeft(90,"left",.35);
 
         //STATE FIVE: GO TO MOUNTAIN
 
-        encoderDrive(driveDistance,"forward",.4);
+        encoderDrive(driveDistance,"backward",.4);
 
         //STATE SIX: STACK BLOCK
 
-        gyroTurnRight(90,"oof" , .3);
 
     }
 

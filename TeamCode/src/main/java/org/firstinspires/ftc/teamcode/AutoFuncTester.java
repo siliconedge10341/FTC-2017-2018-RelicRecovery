@@ -61,14 +61,11 @@ public class AutoFuncTester extends LinearOpMode {
 
         imu.start();
 
-        gyroTurnRight(90,"right",.22);
+       // gyroTurnRight(90,"right",.22);
 
-        timer.reset();
-        timer.startTime();
-        while(timer.seconds() < 10){
-            //nigger
-        }
+        pauseAuto(.5);
 
+        encoderDrive(12,"forward",.3);
 
 
 
@@ -81,7 +78,7 @@ public class AutoFuncTester extends LinearOpMode {
         //
         bot.reset_encoders();
         encoderval = ticks_per_inch.intValue() * (int) inches;
-        bot.run_to_position();
+        bot.run_using_encoders();
         //
         // Uses the encoders and motors to set the specific position
         //
@@ -102,19 +99,25 @@ public class AutoFuncTester extends LinearOpMode {
             bot.run_diagonal_left_up();
         }
 
+        while (bot.testDistance(motorFL) != 1 && opModeIsActive()) {
+            telemetry.addData("Pos ", motorFL.getCurrentPosition());
+            telemetry.update();
+        }
+
         bot.brake();
         bot.reset_encoders();
+
     }
 
 
     public void gyroTurnRight(double angle, String direction, double power){
-        double aheading = imu.getHeading() + angle;
+        double aheading = imu.getHeading() - angle;
         boolean gua = false;
         bot.run_without_encoders();
         bot.setPowerD(power);
 
         while(opModeIsActive() && gua==false) {
-            aheading = Math.abs(imu.getHeading()) + angle;
+            //aheading = Math.abs(imu.getHeading()) + angle;
             bot.turn_right();
 
             telemetry.addData("Heading", imu.getHeading());
@@ -132,7 +135,7 @@ public class AutoFuncTester extends LinearOpMode {
     }
 
     public void gyroTurnLeft(double angle, String direction, double power){
-        double aheading = imu.getHeading() - angle;
+        double aheading = imu.getHeading() + angle;
         boolean gua = false;
         bot.run_without_encoders();
         bot.setPowerD(power);
@@ -153,6 +156,15 @@ public class AutoFuncTester extends LinearOpMode {
 
         bot.brake();
 
+    }
+
+    public void pauseAuto(double time){
+        ElapsedTime timer = new ElapsedTime();
+        timer.startTime();
+        while(timer.seconds()<time){
+
+        }
+        timer.reset();
     }
 }
 //nbjl

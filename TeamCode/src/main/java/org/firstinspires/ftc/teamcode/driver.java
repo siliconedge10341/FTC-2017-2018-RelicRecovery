@@ -88,7 +88,7 @@ public class driver extends OpMode{
 
         pressed = false;
         endtime = 0;
-        speedcoef = 1.0;
+        speedcoef = .5;
 
         accel = 0;
 
@@ -140,10 +140,10 @@ public class driver extends OpMode{
         armServoR2.setPosition(ServoposR1+.29);
 
         if (speedv == 1){
-            speedcoef = .5;
+            speedcoef = .25;
         }
         if (speedv == 2){
-            speedcoef = 1;
+            speedcoef = .5;
         }
        /*if(gamepad1.a){
             speedcoef = .5;

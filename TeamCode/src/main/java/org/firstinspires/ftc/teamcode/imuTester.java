@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
  * Created by vatty on 9/16/2017.
  */
 
-@Autonomous(name = "imuTester")
+@Autonomous(name = "imuTester gyro")
 public class imuTester extends LinearOpMode{
     AdafruitIMU imu = new AdafruitIMU();
 

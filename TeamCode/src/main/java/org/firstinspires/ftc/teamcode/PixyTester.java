@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.classes.Pixy;
  * Created by vatty on 9/16/2017.
  */
 
-@Autonomous(name = "imuTester")
+@Autonomous(name = "pixyTester")
 public class PixyTester extends LinearOpMode{
     I2cDeviceSynch pixy;
 
