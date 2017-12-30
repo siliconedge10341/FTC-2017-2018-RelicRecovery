@@ -121,19 +121,14 @@ public class RedAuto2 extends LinearOpMode {
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            driveDistance = 12.0;
+            driveDistance = 10.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
             driveDistance = 14.0;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-            driveDistance = 16.0;
+            driveDistance = 18.0;
         }else{
-            driveDistance = 12.0;
+            driveDistance = 14.0;
         }
-        //STATE FOUR: TURN ROBOT
-
-        //gyroTurnLeft(90,"left",.35);
-
-        //STATE FIVE: GO TO MOUNTAIN
 
         encoderDrive(driveDistance,"backward",.4);
 
