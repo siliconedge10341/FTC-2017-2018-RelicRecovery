@@ -34,7 +34,7 @@ import org.firstinspires.ftc.teamcode.classes.Mecanum;
  * Created by vatty on 9/15/2017.
  */
 @Autonomous(name="ReadAuto 1", group="Pushbot")
-public class RedAuto extends LinearOpMode {
+public class RedAuto1 extends LinearOpMode {
 
     private DcMotor motorFR;
     private DcMotor motorFL;
@@ -115,20 +115,20 @@ public class RedAuto extends LinearOpMode {
         jewelHitter.setPosition(0.0);
 
         //STATE THREE: SCAN VUMARK
-        encoderDrive(4.0,"oof",.3);
+        encoderDrive(2.0,"left",.3);
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         telemetry.addData("VuMark", "%s visible", vuMark);
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            driveDistance = 15.0;
+            driveDistance = 4.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
-            driveDistance = 18.0;
+            driveDistance = 5.5;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-            driveDistance = 20.0;
+            driveDistance = 7.0;
         }else{
-            driveDistance = 20.0;
+            driveDistance = 5.5;
         }
         //STATE FOUR: TURN ROBOT
 
@@ -151,7 +151,7 @@ public class RedAuto extends LinearOpMode {
         //
         bot.reset_encoders();
         encoderval = ticks_per_inch.intValue() * (int) inches;
-        bot.run_to_position();
+        bot.run_using_encoders();
         //
         // Uses the encoders and motors to set the specific position
         //
@@ -172,10 +172,15 @@ public class RedAuto extends LinearOpMode {
             bot.run_diagonal_left_up();
         }
 
+        while (bot.testDistance(motorFL) != 1 && opModeIsActive()) {
+            telemetry.addData("Pos ", motorFL.getCurrentPosition());
+            telemetry.update();
+        }
+
         bot.brake();
         bot.reset_encoders();
-    }
 
+    }
 
 
     public void gyroTurnRight(double angle, String direction, double power){
