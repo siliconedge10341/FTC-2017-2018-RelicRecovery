@@ -134,8 +134,8 @@ public class RedAuto1 extends LinearOpMode {
         //STATE FIVE: MOVE LEFT
         encoderDrive(driveDistance,"left",.4);
 
-
-
+        //STATE SIX: TURN 90 degrees
+        gyroTurnRight(90,"oof",0.3);
     }
 
     public void encoderDrive(double inches, String direction , double power ) {
