@@ -112,13 +112,13 @@ public class BlueAuto2 extends LinearOpMode {
             driveDistance = 12.0;
         }
         //STATE FOUR: MOVE RIGHT
-        encoderDrive(36.0,"backward",.4);
+        encoderDrive(36.0,"right",.4);
 
         //TURN 180 degrees
         gyroTurnLeft(180,"oof",0.3);
 
-        //STATE FIVE: MOVE BACK
-        encoderDrive(driveDistance,"backward",.4);
+        //STATE FIVE: MOVE FORWARD
+        encoderDrive(driveDistance,"forward",.4);
 
         //STATE SIX: STACK BLOCK
 
