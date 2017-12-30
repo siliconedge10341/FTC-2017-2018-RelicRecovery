@@ -109,15 +109,11 @@ public class RedAuto1 extends LinearOpMode {
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
 
         }
-        //STATE FOUR: TURN ROBOT
+        //STATE FOUR: MOVE LEFT
 
-        gyroTurnLeft(90,"left",.4);
+        encoderDrive(36,"left",.5);
 
-        //STATE FIVE: GO TO MOUNTAIN
 
-        encoderDrive(20,"forward",.4);
-
-        //STATE SIX: STACK BLOCK
 
 
 
