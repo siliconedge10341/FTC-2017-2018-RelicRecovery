@@ -96,24 +96,28 @@ public class BlueAuto2 extends LinearOpMode {
         jewelHitter.setPosition(0.0);
 
         //STATE THREE: SCAN VUMARK
-        encoderDrive(22.0,"left",.4);
+        encoderDrive(2.0,"left",.4);
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         telemetry.addData("VuMark", "%s visible", vuMark);
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            driveDistance = 10.0;
+            driveDistance = 0.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
-            driveDistance = 14.0;
+            driveDistance = 12.0;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-            driveDistance = 18.0;
+            driveDistance = 24.0;
         }else{
-            driveDistance = 14.0;
+            driveDistance = 12.0;
         }
-
         //STATE FOUR: MOVE RIGHT
+        encoderDrive(36.0,"backward",.4);
 
+        //TURN 180 degrees
+        gyroTurnLeft(180,"oof",0.3);
+
+        //STATE FIVE: MOVE BACK
         encoderDrive(driveDistance,"backward",.4);
 
         //STATE SIX: STACK BLOCK

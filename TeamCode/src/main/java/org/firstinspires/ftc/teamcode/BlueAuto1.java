@@ -104,20 +104,20 @@ public class BlueAuto1 extends LinearOpMode {
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            driveDistance = 48.0;
+            driveDistance = 26.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
-            driveDistance = 36.0;
+            driveDistance = 38.0;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-            driveDistance = 24.0;
+            driveDistance = 50.0;
         }else{
-            driveDistance = 36.0;
+            driveDistance = 38.0;
         }
 
-        //STATE FIVE: MOVE LEFT
+        //STATE FIVE: MOVE RIGHT
         encoderDrive(driveDistance,"right",.4);
 
         //STATE SIX: TURN 90 degrees
-        gyroTurnLeft(90,"oof",0.3);
+        gyroTurnRight(90,"oof",0.3);
     }
 
     public void encoderDrive(double inches, String direction , double power ) {
