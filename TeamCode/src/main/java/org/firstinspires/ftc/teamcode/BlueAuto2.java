@@ -1,40 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
-import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
 import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
 import org.firstinspires.ftc.teamcode.classes.Mecanum;
 
-
-/**
- * Created by vatty on 9/15/2017.
- */
-@Autonomous(name="Red Auto 2", group="Pushbot")
-public class RedAuto2 extends LinearOpMode {
+@Autonomous(name="Blue Auto 2", group="Pushbot")
+public class BlueAuto2 extends LinearOpMode {
 
     private DcMotor motorFR;
     private DcMotor motorFL;
@@ -114,26 +96,24 @@ public class RedAuto2 extends LinearOpMode {
         jewelHitter.setPosition(0.0);
 
         //STATE THREE: SCAN VUMARK
-        encoderDrive(2.0,"left",.4);
+        encoderDrive(22.0,"left",.4);
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         telemetry.addData("VuMark", "%s visible", vuMark);
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            driveDistance = 25.0;
+            driveDistance = 10.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
-            driveDistance = 13.0;
+            driveDistance = 14.0;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-            driveDistance = 4.0;
+            driveDistance = 18.0;
         }else{
             driveDistance = 14.0;
         }
 
-        //STATE FOUR: MOVE LEFT
-        encoderDrive(24.0,"left",.4);
+        //STATE FOUR: MOVE RIGHT
 
-        //STATE FIVE: MOVE BACK
         encoderDrive(driveDistance,"backward",.4);
 
         //STATE SIX: STACK BLOCK

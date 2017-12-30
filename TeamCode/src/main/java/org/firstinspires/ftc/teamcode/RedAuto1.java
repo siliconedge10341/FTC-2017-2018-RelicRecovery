@@ -33,7 +33,7 @@ import org.firstinspires.ftc.teamcode.classes.Mecanum;
 /**
  * Created by vatty on 9/15/2017.
  */
-@Autonomous(name="ReadAuto 1", group="Pushbot")
+@Autonomous(name="Red Auto 1", group="Pushbot")
 public class RedAuto1 extends LinearOpMode {
 
     private DcMotor motorFR;
@@ -122,11 +122,11 @@ public class RedAuto1 extends LinearOpMode {
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            driveDistance = 48.0;
+            driveDistance = 46.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
-            driveDistance = 36.0;
+            driveDistance = 34.0;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-            driveDistance = 24.0;
+            driveDistance = 22.0;
         }else{
             driveDistance = 36.0;
         }
