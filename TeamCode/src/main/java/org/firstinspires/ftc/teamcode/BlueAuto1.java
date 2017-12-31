@@ -1,41 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
-import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
 import org.firstinspires.ftc.teamcode.classes.AdafruitIMU;
 import org.firstinspires.ftc.teamcode.classes.Mecanum;
 
-
-/**
- * Created by vatty on 9/15/2017.
- */
-@Autonomous(name="Red Auto 2", group="Pushbot")
-public class RedAuto2 extends LinearOpMode {
+@Autonomous(name="Blue Auto 1", group="Pushbot")
+public class BlueAuto1 extends LinearOpMode {
 
     private DcMotor motorFR;
     private DcMotor motorFL;
@@ -57,16 +38,10 @@ public class RedAuto2 extends LinearOpMode {
     //Servos
     Servo jewelHitter;
 
-    //Timer
-    ElapsedTime timer = new ElapsedTime();
-
     private static final Double ticks_per_inch = 510 / (3.1415 * 4);
     private static final Double CORRECTION = .04;
     private static final Double THRESHOLD = 2.0;
     Double driveDistance;
-    double red;
-    double blue;
-
 
     public void runOpMode(){
         //motors
@@ -100,10 +75,8 @@ public class RedAuto2 extends LinearOpMode {
         jewelHitter = hardwareMap.servo.get("servo_hitter");
         jewelHitter.setPosition(0);
 
-        //Timer
-
-
         driveDistance = 15.0;
+
 
         waitForStart();
 
@@ -113,64 +86,38 @@ public class RedAuto2 extends LinearOpMode {
         encoderDrive(2,"forward",.5);
 
         //STATE TWO: DETECT BALLS
-        jewelHitter.setPosition(0.0);
-
-        pauseAuto(1.0);
-
-        timer.reset();
-        timer.startTime();
-        while(timer.seconds()<1 && opModeIsActive()){
-            red += sensorColor.red();
-            blue += sensorColor.blue();
-        }
-
-        telemetry.addData("Red" , red);
-        telemetry.addData("Blue" , blue);
-        telemetry.update();
-
-        if(blue>red){
-
+        jewelHitter.setPosition(.75);
+        if(sensorColor.blue()>sensorColor.red()){
             gyroTurnLeft(10,"oof",.3);
-            jewelHitter.setPosition(.75);
-            pauseAuto(.5);
             gyroTurnRight(10,"oof",.3);
         }else{
-
             gyroTurnRight(10,"oof",.3);
-            jewelHitter.setPosition(.75);
-            pauseAuto(.5);
             gyroTurnLeft(10,"oof",.3);
         }
-
-
-        telemetry.update();
+        jewelHitter.setPosition(0.0);
 
         //STATE THREE: SCAN VUMARK
-        encoderDrive(2.0,"left",.4);
+        encoderDrive(2.0,"left",.3);
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         telemetry.addData("VuMark", "%s visible", vuMark);
 
         telemetry.update();
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            driveDistance = 25.0;
+            driveDistance = 26.0;
         }else if (vuMark == RelicRecoveryVuMark.CENTER){
-            driveDistance = 13.0;
+            driveDistance = 38.0;
         }else if (vuMark == RelicRecoveryVuMark.RIGHT){
-            driveDistance = 4.0;
+            driveDistance = 50.0;
         }else{
-            driveDistance = 14.0;
+            driveDistance = 38.0;
         }
 
-        //STATE FOUR: MOVE LEFT
-        encoderDrive(24.0,"left",.4);
+        //STATE FIVE: MOVE RIGHT
+        encoderDrive(driveDistance,"right",.4);
 
-        //STATE FIVE: MOVE BACK
-        encoderDrive(driveDistance,"backward",.4);
-
-        //STATE SIX: STACK BLOCK
-
-
+        //STATE SIX: TURN 90 degrees
+        gyroTurnRight(90,"oof",0.3);
     }
 
     public void encoderDrive(double inches, String direction , double power ) {
@@ -180,7 +127,7 @@ public class RedAuto2 extends LinearOpMode {
         //
         bot.reset_encoders();
         encoderval = ticks_per_inch.intValue() * (int) inches;
-        bot.run_to_position();
+        bot.run_using_encoders();
         //
         // Uses the encoders and motors to set the specific position
         //
@@ -201,10 +148,15 @@ public class RedAuto2 extends LinearOpMode {
             bot.run_diagonal_left_up();
         }
 
+        while (bot.testDistance(motorFL) != 1 && opModeIsActive()) {
+            telemetry.addData("Pos ", motorFL.getCurrentPosition());
+            telemetry.update();
+        }
+
         bot.brake();
         bot.reset_encoders();
-    }
 
+    }
 
 
     public void gyroTurnRight(double angle, String direction, double power){
@@ -256,14 +208,5 @@ public class RedAuto2 extends LinearOpMode {
 
         bot.brake();
 
-    }
-
-    public void pauseAuto(double time){
-        ElapsedTime timer = new ElapsedTime();
-        timer.startTime();
-        while(timer.seconds()<time && opModeIsActive()){
-
-        }
-        timer.reset();
     }
 }
