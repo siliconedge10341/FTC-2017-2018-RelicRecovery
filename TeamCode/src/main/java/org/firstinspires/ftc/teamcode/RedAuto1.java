@@ -91,7 +91,7 @@ public class RedAuto1 extends LinearOpMode {
 
         //Servo
         jewelHitter = hardwareMap.servo.get("servo_hitter");
-        jewelHitter.setPosition(0);
+        jewelHitter.setPosition(0.5);
 
         driveDistance = 15.0;
 

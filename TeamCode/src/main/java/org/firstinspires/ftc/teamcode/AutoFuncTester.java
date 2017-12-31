@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -36,9 +38,20 @@ public class AutoFuncTester extends LinearOpMode {
     //Gyro Initialize
     AdafruitIMU imu = new AdafruitIMU();
 
-    private static final Double ticks_per_inch = 510 / (3.1415 * 4);
+    //Color sensor
+    ColorSensor sensorColor;
+
+    private static final Double ticks_per_inch = 19.9;
+    //private static final Double ticks_per_inch = 250 / (3.141592 * 4);
+
+    //Servo
+    Servo jewelHitter;
+
     private static final Double CORRECTION = .04;
     private static final Double THRESHOLD = 5.0;
+
+    int red = 0;
+    int blue = 0;
 
     public void runOpMode(){
         //motors
@@ -54,18 +67,56 @@ public class AutoFuncTester extends LinearOpMode {
 
         //IMU
         imu = new AdafruitIMU(hardwareMap.get(BNO055IMU.class, "imu"));
-
         imu.init();
 
-        waitForStart();
+        //Color Sensor
+        sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
 
+        //Servo
+        jewelHitter = hardwareMap.servo.get("servo_hitter");
+        jewelHitter.setPosition(0.5);
+
+
+        //INITTT__----------------------------------------------
+        waitForStart();
+        //START=----------------------------------------------------
         imu.start();
 
-       // gyroTurnRight(90,"right",.22);
 
-        pauseAuto(.5);
+        encoderDrive(4.0,"forward" , .1);
+        jewelHitter.setPosition(0.0);
 
-        encoderDrive(12,"forward",.3);
+        pauseAuto(1.0);
+
+        timer.reset();
+        timer.startTime();
+        while(timer.seconds()<1 && opModeIsActive()){
+            red += sensorColor.red();
+            blue += sensorColor.blue();
+        }
+
+        telemetry.addData("Red" , red);
+        telemetry.addData("Blue" , blue);
+        telemetry.update();
+
+        if(blue>red){
+
+            gyroTurnLeft(10,"oof",.3);
+            jewelHitter.setPosition(.75);
+            pauseAuto(.5);
+            gyroTurnRight(10,"oof",.3);
+        }else{
+
+            gyroTurnRight(10,"oof",.3);
+            jewelHitter.setPosition(.75);
+            pauseAuto(.5);
+            gyroTurnLeft(10,"oof",.3);
+        }
+
+
+        telemetry.update();
+
+        pauseAuto(2.0);
 
 
 
@@ -78,11 +129,12 @@ public class AutoFuncTester extends LinearOpMode {
         //
         bot.reset_encoders();
         encoderval = ticks_per_inch.intValue() * (int) inches;
-        bot.run_using_encoders();
+
         //
         // Uses the encoders and motors to set the specific position
         //
         bot.setPosition(encoderval,encoderval,encoderval,encoderval);
+        bot.run_using_encoders();
         //
         // Sets the power and direction
         //
@@ -105,7 +157,7 @@ public class AutoFuncTester extends LinearOpMode {
         }
 
         bot.brake();
-        bot.reset_encoders();
+
 
     }
 
@@ -161,7 +213,7 @@ public class AutoFuncTester extends LinearOpMode {
     public void pauseAuto(double time){
         ElapsedTime timer = new ElapsedTime();
         timer.startTime();
-        while(timer.seconds()<time){
+        while(timer.seconds()<time && opModeIsActive()){
 
         }
         timer.reset();

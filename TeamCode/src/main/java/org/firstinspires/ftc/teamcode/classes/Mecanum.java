@@ -312,13 +312,13 @@ public class Mecanum{
         BRpower = -BasePower;
 
 
-        motorFR.setPower(-FRpower);
+        motorFR.setPower(FRpower);
 
-        motorBR.setPower(-BRpower);
+        motorBR.setPower(BRpower);
 
-        motorFL.setPower(-FLpower);
+        motorFL.setPower(FLpower);
 
-        motorBL.setPower(-BLpower);
+        motorBL.setPower(BLpower);
 
 
     }
@@ -339,13 +339,13 @@ public class Mecanum{
 
         //
 
-        motorFR.setPower(-FRpower);
+        motorFR.setPower(FRpower);
 
-        motorBR.setPower(-BRpower);
+        motorBR.setPower(BRpower);
 
-        motorFL.setPower(-FLpower);
+        motorFL.setPower(FLpower);
 
-        motorBL.setPower(-BLpower);
+        motorBL.setPower(BLpower);
 
         //
 
@@ -663,7 +663,7 @@ public class Mecanum{
     }
 
     public Boolean isBusy(){
-        if (motorFR.isBusy() || motorBL.isBusy()){
+        if (motorFR.isBusy() || motorBL.isBusy()|| motorBR.isBusy()|| motorFL.isBusy()){
             return true;
         }else{
             return false;

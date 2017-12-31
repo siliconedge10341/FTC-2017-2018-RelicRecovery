@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -56,10 +57,16 @@ public class RedAuto2 extends LinearOpMode {
     //Servos
     Servo jewelHitter;
 
+    //Timer
+    ElapsedTime timer = new ElapsedTime();
+
     private static final Double ticks_per_inch = 510 / (3.1415 * 4);
     private static final Double CORRECTION = .04;
     private static final Double THRESHOLD = 2.0;
     Double driveDistance;
+    double red;
+    double blue;
+
 
     public void runOpMode(){
         //motors
@@ -93,6 +100,9 @@ public class RedAuto2 extends LinearOpMode {
         jewelHitter = hardwareMap.servo.get("servo_hitter");
         jewelHitter.setPosition(0);
 
+        //Timer
+
+
         driveDistance = 15.0;
 
         waitForStart();
@@ -103,15 +113,37 @@ public class RedAuto2 extends LinearOpMode {
         encoderDrive(2,"forward",.5);
 
         //STATE TWO: DETECT BALLS
-        jewelHitter.setPosition(.75);
-        if(sensorColor.blue()>sensorColor.red()){
+        jewelHitter.setPosition(0.0);
+
+        pauseAuto(1.0);
+
+        timer.reset();
+        timer.startTime();
+        while(timer.seconds()<1 && opModeIsActive()){
+            red += sensorColor.red();
+            blue += sensorColor.blue();
+        }
+
+        telemetry.addData("Red" , red);
+        telemetry.addData("Blue" , blue);
+        telemetry.update();
+
+        if(blue>red){
+
             gyroTurnLeft(10,"oof",.3);
+            jewelHitter.setPosition(.75);
+            pauseAuto(.5);
             gyroTurnRight(10,"oof",.3);
         }else{
+
             gyroTurnRight(10,"oof",.3);
+            jewelHitter.setPosition(.75);
+            pauseAuto(.5);
             gyroTurnLeft(10,"oof",.3);
         }
-        jewelHitter.setPosition(0.0);
+
+
+        telemetry.update();
 
         //STATE THREE: SCAN VUMARK
         encoderDrive(22.0,"left",.4);
@@ -225,5 +257,14 @@ public class RedAuto2 extends LinearOpMode {
 
         bot.brake();
 
+    }
+
+    public void pauseAuto(double time){
+        ElapsedTime timer = new ElapsedTime();
+        timer.startTime();
+        while(timer.seconds()<time && opModeIsActive()){
+
+        }
+        timer.reset();
     }
 }
