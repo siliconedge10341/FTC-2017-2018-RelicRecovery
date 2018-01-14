@@ -263,6 +263,8 @@ public class RedAuto2 extends LinearOpMode {
         timer.startTime();
         while(timer.seconds()<time && opModeIsActive()){
 
+
+
         }
         timer.reset();
     }
